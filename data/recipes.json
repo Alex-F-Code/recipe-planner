@@ -1,0 +1,420 @@
+{
+  "items": [
+    {
+      "id": "yogurt-fruit-granola",
+      "name": "Yogurt, Fruit and Granola",
+      "mealType": "breakfast",
+      "cuisine": "any",
+      "vibes": ["quick", "fresh", "healthy"],
+      "servings": 1,
+      "prepMins": 3,
+      "cookMins": 0,
+      "ingredients": [
+        {"item": "greek yoghurt", "qty": 1, "unit": "bowl"},
+        {"item": "granola", "qty": 1, "unit": "handful"},
+        {"item": "frozen berries", "qty": 1, "unit": "handful"}
+      ],
+      "method": [
+        "Spoon the yoghurt into a bowl.",
+        "Top with granola and frozen berries. The berries thaw slightly as you eat."
+      ]
+    },
+    {
+      "id": "pb-jam-toast",
+      "name": "Peanut Butter and Jam on Toast",
+      "mealType": "breakfast",
+      "cuisine": "any",
+      "vibes": ["quick", "comfort"],
+      "servings": 1,
+      "prepMins": 2,
+      "cookMins": 3,
+      "ingredients": [
+        {"item": "bread", "qty": 2, "unit": "slice"},
+        {"item": "peanut butter", "qty": 1, "unit": "tbsp"},
+        {"item": "jam", "qty": 1, "unit": "tbsp"}
+      ],
+      "method": [
+        "Toast the bread.",
+        "Spread peanut butter on one slice, jam on the other. Or both on both."
+      ]
+    },
+    {
+      "id": "overnight-oats",
+      "name": "Overnight Oats",
+      "mealType": "breakfast",
+      "cuisine": "any",
+      "vibes": ["quick", "cold", "prepped-ahead"],
+      "servings": 1,
+      "prepMins": 5,
+      "cookMins": 0,
+      "ingredients": [
+        {"item": "oats", "qty": 1, "unit": "portion"},
+        {"item": "greek yoghurt", "qty": 1, "unit": "spoonful"},
+        {"item": "chocolate powder", "qty": 1, "unit": "spoonful"},
+        {"item": "frozen berries", "qty": 1, "unit": "handful"},
+        {"item": "chia seeds", "qty": 1, "unit": "tsp"}
+      ],
+      "method": [
+        "Combine oats, greek yoghurt, chocolate powder and chia seeds in a jar or bowl.",
+        "Add enough milk or water to just cover, stir well.",
+        "Cover and refrigerate overnight.",
+        "In the morning, top with frozen berries and eat."
+      ]
+    },
+    {
+      "id": "caesar-wrap",
+      "name": "Chicken Caesar Wrap",
+      "mealType": "lunch",
+      "cuisine": "american",
+      "vibes": ["quick", "fresh", "protein"],
+      "servings": 2,
+      "prepMins": 10,
+      "cookMins": 8,
+      "ingredients": [
+        {"item": "chicken breast", "qty": 2, "unit": ""},
+        {"item": "tortilla wrap", "qty": 2, "unit": ""},
+        {"item": "romaine lettuce", "qty": 1, "unit": ""},
+        {"item": "caesar dressing", "qty": 4, "unit": "tbsp"},
+        {"item": "parmesan", "qty": 30, "unit": "g"},
+        {"item": "olive oil", "qty": 1, "unit": "tbsp"},
+        {"item": "lemon", "qty": 1, "unit": ""}
+      ],
+      "method": [
+        "Season chicken with salt, pepper and a squeeze of lemon. Pan-fry in olive oil for 4 minutes each side.",
+        "Rest 3 minutes, then slice.",
+        "Shred the lettuce, toss with dressing.",
+        "Warm the wraps briefly. Fill with lettuce, sliced chicken and shaved parmesan. Roll and serve."
+      ]
+    },
+    {
+      "id": "tuna-nicoise",
+      "name": "Tuna Nicoise Salad",
+      "mealType": "lunch",
+      "cuisine": "french",
+      "vibes": ["fresh", "light", "summer"],
+      "servings": 2,
+      "prepMins": 15,
+      "cookMins": 10,
+      "ingredients": [
+        {"item": "tinned tuna", "qty": 200, "unit": "g"},
+        {"item": "egg", "qty": 2, "unit": ""},
+        {"item": "new potato", "qty": 300, "unit": "g"},
+        {"item": "green bean", "qty": 150, "unit": "g"},
+        {"item": "cherry tomato", "qty": 200, "unit": "g"},
+        {"item": "black olive", "qty": 50, "unit": "g"},
+        {"item": "olive oil", "qty": 3, "unit": "tbsp"},
+        {"item": "red wine vinegar", "qty": 1, "unit": "tbsp"},
+        {"item": "dijon mustard", "qty": 1, "unit": "tsp"}
+      ],
+      "method": [
+        "Boil the potatoes for 12 minutes. Add green beans for the last 4 minutes. Drain and cool.",
+        "Boil eggs for 7 minutes, cool in cold water, peel and halve.",
+        "Whisk olive oil, vinegar and mustard for the dressing.",
+        "Arrange potatoes, beans, halved tomatoes, olives and tuna on plates.",
+        "Top with egg halves and drizzle with dressing."
+      ]
+    },
+    {
+      "id": "halloumi-pitta",
+      "name": "Halloumi and Roast Veg Pitta",
+      "mealType": "lunch",
+      "cuisine": "mediterranean",
+      "vibes": ["vegetarian", "quick", "fresh"],
+      "servings": 2,
+      "prepMins": 10,
+      "cookMins": 15,
+      "ingredients": [
+        {"item": "halloumi", "qty": 250, "unit": "g"},
+        {"item": "pitta bread", "qty": 2, "unit": ""},
+        {"item": "red pepper", "qty": 1, "unit": ""},
+        {"item": "courgette", "qty": 1, "unit": ""},
+        {"item": "red onion", "qty": 1, "unit": ""},
+        {"item": "hummus", "qty": 100, "unit": "g"},
+        {"item": "olive oil", "qty": 2, "unit": "tbsp"},
+        {"item": "dried oregano", "qty": 1, "unit": "tsp"}
+      ],
+      "method": [
+        "Slice pepper, courgette and red onion. Toss with olive oil and oregano.",
+        "Roast at 200C for 15 minutes.",
+        "Slice halloumi 1cm thick. Fry in a dry pan for 1-2 minutes each side until golden.",
+        "Warm pittas, split open. Spread with hummus, stuff with veg and halloumi."
+      ]
+    },
+    {
+      "id": "egg-fried-rice",
+      "name": "Egg Fried Rice",
+      "mealType": "lunch",
+      "cuisine": "chinese",
+      "vibes": ["quick", "budget", "comfort"],
+      "servings": 2,
+      "prepMins": 5,
+      "cookMins": 10,
+      "ingredients": [
+        {"item": "cooked rice", "qty": 400, "unit": "g"},
+        {"item": "egg", "qty": 3, "unit": ""},
+        {"item": "frozen peas", "qty": 100, "unit": "g"},
+        {"item": "spring onion", "qty": 4, "unit": ""},
+        {"item": "garlic clove", "qty": 2, "unit": ""},
+        {"item": "soy sauce", "qty": 2, "unit": "tbsp"},
+        {"item": "sesame oil", "qty": 1, "unit": "tsp"},
+        {"item": "vegetable oil", "qty": 2, "unit": "tbsp"}
+      ],
+      "method": [
+        "Beat the eggs. Heat 1 tbsp oil in a wok, add eggs and scramble quickly. Remove.",
+        "Add remaining oil, fry minced garlic and white parts of spring onion for 30 seconds.",
+        "Add rice, break it up. Stir-fry 2-3 minutes.",
+        "Add peas, soy sauce and sesame oil. Return the egg. Toss. Top with green spring onion."
+      ]
+    },
+    {
+      "id": "minestrone",
+      "name": "Minestrone Soup",
+      "mealType": "lunch",
+      "cuisine": "italian",
+      "vibes": ["comfort", "vegetarian", "hearty"],
+      "servings": 4,
+      "prepMins": 10,
+      "cookMins": 30,
+      "ingredients": [
+        {"item": "onion", "qty": 1, "unit": ""},
+        {"item": "carrot", "qty": 2, "unit": ""},
+        {"item": "celery stick", "qty": 2, "unit": ""},
+        {"item": "garlic clove", "qty": 2, "unit": ""},
+        {"item": "tinned chopped tomatoes", "qty": 400, "unit": "g"},
+        {"item": "vegetable stock", "qty": 1, "unit": "l"},
+        {"item": "tinned cannellini beans", "qty": 400, "unit": "g"},
+        {"item": "small pasta shape", "qty": 100, "unit": "g"},
+        {"item": "baby spinach", "qty": 100, "unit": "g"},
+        {"item": "olive oil", "qty": 2, "unit": "tbsp"},
+        {"item": "parmesan", "qty": 30, "unit": "g"}
+      ],
+      "method": [
+        "Finely chop onion, carrot and celery. Fry in olive oil for 8 minutes until soft.",
+        "Add crushed garlic, cook 1 minute. Add tomatoes and stock, simmer 15 minutes.",
+        "Add drained beans and pasta, cook until pasta is tender (about 8 minutes).",
+        "Stir in the spinach until wilted. Serve topped with grated parmesan."
+      ]
+    },
+    {
+      "id": "spag-bol",
+      "name": "Spaghetti Bolognese",
+      "mealType": "dinner",
+      "cuisine": "italian",
+      "vibes": ["comfort", "hearty", "family"],
+      "servings": 4,
+      "prepMins": 15,
+      "cookMins": 45,
+      "ingredients": [
+        {"item": "minced beef", "qty": 500, "unit": "g"},
+        {"item": "onion", "qty": 1, "unit": ""},
+        {"item": "carrot", "qty": 1, "unit": ""},
+        {"item": "celery stick", "qty": 2, "unit": ""},
+        {"item": "garlic clove", "qty": 3, "unit": ""},
+        {"item": "tinned chopped tomatoes", "qty": 400, "unit": "g"},
+        {"item": "tomato puree", "qty": 2, "unit": "tbsp"},
+        {"item": "red wine", "qty": 150, "unit": "ml"},
+        {"item": "beef stock cube", "qty": 1, "unit": ""},
+        {"item": "dried oregano", "qty": 1, "unit": "tsp"},
+        {"item": "spaghetti", "qty": 400, "unit": "g"},
+        {"item": "olive oil", "qty": 2, "unit": "tbsp"},
+        {"item": "parmesan", "qty": 50, "unit": "g"}
+      ],
+      "method": [
+        "Heat the olive oil in a large pan. Finely chop the onion, carrot and celery, then fry gently for 8-10 minutes until soft.",
+        "Add the crushed garlic and cook for 1 minute. Turn up the heat and add the mince, breaking it up as it browns.",
+        "Stir in the tomato puree, then pour in the wine and let it bubble for 2 minutes.",
+        "Add the chopped tomatoes, crumbled stock cube and oregano. Simmer gently for 30-40 minutes.",
+        "Cook the spaghetti according to packet instructions. Drain and toss with the sauce. Serve with grated parmesan."
+      ]
+    },
+    {
+      "id": "thai-green-curry",
+      "name": "Thai Green Chicken Curry",
+      "mealType": "dinner",
+      "cuisine": "thai",
+      "vibes": ["fresh", "spicy", "quick"],
+      "servings": 4,
+      "prepMins": 10,
+      "cookMins": 20,
+      "ingredients": [
+        {"item": "chicken thigh", "qty": 600, "unit": "g"},
+        {"item": "green curry paste", "qty": 3, "unit": "tbsp"},
+        {"item": "coconut milk", "qty": 400, "unit": "ml"},
+        {"item": "fish sauce", "qty": 2, "unit": "tbsp"},
+        {"item": "brown sugar", "qty": 1, "unit": "tsp"},
+        {"item": "lime", "qty": 1, "unit": ""},
+        {"item": "mangetout", "qty": 150, "unit": "g"},
+        {"item": "baby corn", "qty": 100, "unit": "g"},
+        {"item": "thai basil", "qty": 1, "unit": "handful"},
+        {"item": "jasmine rice", "qty": 300, "unit": "g"},
+        {"item": "vegetable oil", "qty": 1, "unit": "tbsp"}
+      ],
+      "method": [
+        "Cook the jasmine rice as per packet instructions.",
+        "Heat the oil in a wok or large pan. Add the curry paste and stir for 1 minute until fragrant.",
+        "Add the diced chicken and stir-fry for 3-4 minutes.",
+        "Pour in the coconut milk, fish sauce and sugar. Simmer for 10 minutes.",
+        "Add the mangetout and baby corn, cook for 3 more minutes. Squeeze in lime juice and stir through the basil. Serve with rice."
+      ]
+    },
+    {
+      "id": "roast-chicken",
+      "name": "Sunday Roast Chicken",
+      "mealType": "dinner",
+      "cuisine": "british",
+      "vibes": ["comfort", "hearty", "family", "weekend"],
+      "servings": 4,
+      "prepMins": 20,
+      "cookMins": 90,
+      "ingredients": [
+        {"item": "whole chicken", "qty": 1.5, "unit": "kg"},
+        {"item": "lemon", "qty": 1, "unit": ""},
+        {"item": "garlic bulb", "qty": 1, "unit": ""},
+        {"item": "fresh thyme", "qty": 1, "unit": "handful"},
+        {"item": "butter", "qty": 50, "unit": "g"},
+        {"item": "potato", "qty": 1, "unit": "kg"},
+        {"item": "carrot", "qty": 4, "unit": ""},
+        {"item": "parsnip", "qty": 3, "unit": ""},
+        {"item": "broccoli", "qty": 1, "unit": "head"},
+        {"item": "olive oil", "qty": 3, "unit": "tbsp"},
+        {"item": "chicken gravy granules", "qty": 4, "unit": "tbsp"}
+      ],
+      "method": [
+        "Preheat oven to 200C/180C fan. Halve the lemon and garlic bulb and push into the chicken cavity with thyme. Rub butter over the skin and season.",
+        "Roast for 1h 20min, or until juices run clear. Rest for 15 minutes.",
+        "Peel and parboil the potatoes for 8 minutes, drain and shake. Roast in olive oil for 45 minutes alongside the chicken.",
+        "Peel and chop the carrots and parsnips. Roast for the last 30 minutes.",
+        "Steam the broccoli for 4 minutes. Make gravy with the granules and 500ml boiling water plus chicken juices."
+      ]
+    },
+    {
+      "id": "beef-black-bean",
+      "name": "Beef and Black Bean Stir-fry",
+      "mealType": "dinner",
+      "cuisine": "chinese",
+      "vibes": ["quick", "hearty"],
+      "servings": 2,
+      "prepMins": 10,
+      "cookMins": 10,
+      "ingredients": [
+        {"item": "rump steak", "qty": 300, "unit": "g"},
+        {"item": "black bean sauce", "qty": 4, "unit": "tbsp"},
+        {"item": "soy sauce", "qty": 1, "unit": "tbsp"},
+        {"item": "garlic clove", "qty": 2, "unit": ""},
+        {"item": "ginger", "qty": 2, "unit": "cm"},
+        {"item": "red pepper", "qty": 1, "unit": ""},
+        {"item": "spring onion", "qty": 4, "unit": ""},
+        {"item": "vegetable oil", "qty": 2, "unit": "tbsp"},
+        {"item": "egg noodles", "qty": 200, "unit": "g"}
+      ],
+      "method": [
+        "Slice the steak thinly against the grain. Toss with soy sauce and leave to marinate for 5 minutes.",
+        "Cook the noodles per packet instructions, drain.",
+        "Heat oil in a wok until smoking. Stir-fry the beef for 1-2 minutes until just browned, then remove.",
+        "Add sliced garlic, ginger, pepper and white parts of spring onion. Stir-fry for 2 minutes.",
+        "Return the beef, add black bean sauce and a splash of water. Toss with noodles. Top with green spring onion."
+      ]
+    },
+    {
+      "id": "greek-salad",
+      "name": "Greek Salad with Grilled Chicken",
+      "mealType": "dinner",
+      "cuisine": "greek",
+      "vibes": ["fresh", "light", "summer", "quick"],
+      "servings": 2,
+      "prepMins": 15,
+      "cookMins": 12,
+      "ingredients": [
+        {"item": "chicken breast", "qty": 2, "unit": ""},
+        {"item": "cucumber", "qty": 1, "unit": ""},
+        {"item": "tomato", "qty": 4, "unit": ""},
+        {"item": "red onion", "qty": 1, "unit": ""},
+        {"item": "kalamata olive", "qty": 100, "unit": "g"},
+        {"item": "feta cheese", "qty": 200, "unit": "g"},
+        {"item": "dried oregano", "qty": 1, "unit": "tsp"},
+        {"item": "olive oil", "qty": 4, "unit": "tbsp"},
+        {"item": "red wine vinegar", "qty": 1, "unit": "tbsp"},
+        {"item": "lemon", "qty": 1, "unit": ""},
+        {"item": "pitta bread", "qty": 2, "unit": ""}
+      ],
+      "method": [
+        "Marinate chicken in 1 tbsp olive oil, lemon juice, half the oregano and salt for 10 minutes.",
+        "Grill the chicken for 5-6 minutes each side until cooked through. Rest, then slice.",
+        "Chop cucumber and tomatoes into chunks. Thinly slice the red onion.",
+        "Combine vegetables with olives in a bowl. Crumble over the feta.",
+        "Whisk remaining olive oil, vinegar and oregano. Pour over the salad. Top with chicken and serve with warm pitta."
+      ]
+    },
+    {
+      "id": "chickpea-curry",
+      "name": "Chickpea and Spinach Curry",
+      "mealType": "dinner",
+      "cuisine": "indian",
+      "vibes": ["hearty", "vegetarian", "comfort", "budget"],
+      "servings": 4,
+      "prepMins": 10,
+      "cookMins": 25,
+      "ingredients": [
+        {"item": "tinned chickpeas", "qty": 800, "unit": "g"},
+        {"item": "onion", "qty": 1, "unit": ""},
+        {"item": "garlic clove", "qty": 3, "unit": ""},
+        {"item": "ginger", "qty": 3, "unit": "cm"},
+        {"item": "tinned chopped tomatoes", "qty": 400, "unit": "g"},
+        {"item": "coconut milk", "qty": 400, "unit": "ml"},
+        {"item": "baby spinach", "qty": 200, "unit": "g"},
+        {"item": "garam masala", "qty": 2, "unit": "tsp"},
+        {"item": "ground cumin", "qty": 1, "unit": "tsp"},
+        {"item": "ground turmeric", "qty": 1, "unit": "tsp"},
+        {"item": "vegetable oil", "qty": 2, "unit": "tbsp"},
+        {"item": "basmati rice", "qty": 300, "unit": "g"},
+        {"item": "fresh coriander", "qty": 1, "unit": "handful"}
+      ],
+      "method": [
+        "Heat oil in a large pan. Fry chopped onion for 6-8 minutes until soft.",
+        "Add minced garlic, ginger and spices. Cook for 1 minute until fragrant.",
+        "Add chopped tomatoes and simmer for 5 minutes.",
+        "Drain and add the chickpeas, pour in coconut milk. Simmer for 10 minutes.",
+        "Stir in the spinach until wilted. Cook the rice per packet. Serve curry over rice topped with coriander."
+      ]
+    },
+    {
+      "id": "lamb-kebab-rolls",
+      "name": "Lamb Kebab Rolls",
+      "mealType": "dinner",
+      "cuisine": "indian",
+      "vibes": ["hearty", "fresh", "spicy", "weekend"],
+      "source": "user",
+      "servings": 1,
+      "prepMins": 20,
+      "cookMins": 30,
+      "ingredients": [
+        {"item": "potato", "qty": 1, "unit": ""},
+        {"item": "gunpowder spice mix", "qty": 1, "unit": "tsp"},
+        {"item": "shallot", "qty": 2, "unit": ""},
+        {"item": "baby gem lettuce", "qty": 0.5, "unit": ""},
+        {"item": "tomato", "qty": 1, "unit": ""},
+        {"item": "lamb mince", "qty": 150, "unit": "g"},
+        {"item": "kofta spice mix", "qty": 1, "unit": "tsp"},
+        {"item": "tortilla wrap", "qty": 2, "unit": ""},
+        {"item": "fresh mint", "qty": 1, "unit": "small handful"},
+        {"item": "fresh coriander", "qty": 1, "unit": "small handful"},
+        {"item": "olive oil", "qty": 2, "unit": "tbsp"},
+        {"item": "lemon", "qty": 0.5, "unit": ""},
+        {"item": "greek yoghurt", "qty": 3, "unit": "tbsp"},
+        {"item": "cucumber", "qty": 5, "unit": "cm"},
+        {"item": "garlic clove", "qty": 1, "unit": ""},
+        {"item": "cider vinegar", "qty": 2, "unit": "tbsp"}
+      ],
+      "method": [
+        "Preheat oven to 200C. Cut the potato into 1cm batons, toss with olive oil and the gunpowder spice mix. Roast for 30 minutes.",
+        "Thinly slice one shallot and put in cider vinegar to pickle while everything else cooks.",
+        "Mix the lamb mince with the kofta spice mix, black pepper and a pinch of salt. Shape into small sausages and roast for 12 minutes.",
+        "For the green chutney: blitz the mint, fresh coriander, olive oil, lemon juice and the second shallot in a small blender.",
+        "For the yoghurt sauce: mix greek yoghurt with grated cucumber, crushed garlic and a squeeze of lemon.",
+        "Chop the lettuce into strips and cube the tomato.",
+        "Char the tortillas on a dry hot pan.",
+        "Assemble: tortilla, green chutney, yoghurt sauce, kofta, potatoes, lettuce, tomato, pickled shallots. Roll up."
+      ]
+    }
+  ]
+}
