@@ -593,6 +593,23 @@ button {
     transform: rotate(-15deg);
 }
 
+.swipe-tint {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 3;
+    transition: opacity 0.1s ease;
+}
+
+.swipe-tint-add {
+    background: #4a9d5a;
+}
+
+.swipe-tint-skip {
+    background: #d64545;
+}
+
 .swipe-card.swipe-left {
     transform: translateX(-120%) rotate(-8deg);
     opacity: 0;

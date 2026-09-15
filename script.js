@@ -287,6 +287,8 @@ function selectHtml() {
         <div class="select">
             <div class="card-stage">
                 <div class="swipe-card">
+                    <div class="swipe-tint swipe-tint-add"></div>
+                    <div class="swipe-tint swipe-tint-skip"></div>
                     <div class="swipe-indicator swipe-indicator-add">&#10003;</div>
                     <div class="swipe-indicator swipe-indicator-skip">&times;</div>
                     ${heroHtml(r)}
@@ -335,20 +337,17 @@ function attachSwipe(cardEl) {
     let horizontal = false;
     const addIndicator = cardEl.querySelector(".swipe-indicator-add");
     const skipIndicator = cardEl.querySelector(".swipe-indicator-skip");
+    const addTint = cardEl.querySelector(".swipe-tint-add");
+    const skipTint = cardEl.querySelector(".swipe-tint-skip");
     const THRESHOLD = 100;
 
     const setIndicators = (dx) => {
-        if (!addIndicator || !skipIndicator) return;
-        if (dx > 0) {
-            addIndicator.style.opacity = String(Math.min(1, dx / THRESHOLD));
-            skipIndicator.style.opacity = "0";
-        } else if (dx < 0) {
-            skipIndicator.style.opacity = String(Math.min(1, Math.abs(dx) / THRESHOLD));
-            addIndicator.style.opacity = "0";
-        } else {
-            addIndicator.style.opacity = "0";
-            skipIndicator.style.opacity = "0";
-        }
+        const addStrength = dx > 0 ? Math.min(1, dx / THRESHOLD) : 0;
+        const skipStrength = dx < 0 ? Math.min(1, Math.abs(dx) / THRESHOLD) : 0;
+        if (addIndicator) addIndicator.style.opacity = String(addStrength);
+        if (skipIndicator) skipIndicator.style.opacity = String(skipStrength);
+        if (addTint) addTint.style.opacity = String(addStrength * 0.7);
+        if (skipTint) skipTint.style.opacity = String(skipStrength * 0.7);
     };
 
     const getPoint = (e) => e.touches ? e.touches[0] : (e.changedTouches ? e.changedTouches[0] : e);
@@ -384,7 +383,6 @@ function attachSwipe(cardEl) {
         if (horizontal && e.cancelable) e.preventDefault();
         currentX = dx;
         cardEl.style.transform = `translateX(${dx}px) rotate(${dx / 25}deg)`;
-        cardEl.style.opacity = String(Math.max(0.4, 1 - Math.abs(dx) / 400));
         setIndicators(dx);
     };
 
@@ -424,6 +422,8 @@ function animateAndAdvance(direction) {
     state.animating = true;
     const indicator = card.querySelector(direction === "right" ? ".swipe-indicator-add" : ".swipe-indicator-skip");
     if (indicator) indicator.style.opacity = "1";
+    const tint = card.querySelector(direction === "right" ? ".swipe-tint-add" : ".swipe-tint-skip");
+    if (tint) tint.style.opacity = "0.7";
     void card.offsetWidth;
     card.style.transition = "transform 0.24s ease-out, opacity 0.24s ease-out";
     card.style.transform = direction === "right"
