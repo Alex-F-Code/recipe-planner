@@ -170,15 +170,12 @@ function homeHtml() {
         const count = state.recipes.filter(r => r.mealType === m).length;
         const picked = countPickedForMeal(m);
         return `
-            <div class="meal-type-card">
+            <div class="meal-type-card" data-action="swipe" data-meal="${m}" role="button" tabindex="0">
                 <div class="meal-type-icon">${MEAL_LABELS[m].charAt(0)}</div>
                 <div class="meal-type-name">${MEAL_LABELS[m]}</div>
                 <div class="meal-type-meta">${count} recipe${count === 1 ? "" : "s"}</div>
                 ${picked > 0 ? `<div class="meal-type-picked">${picked} in plan</div>` : ""}
-                <div class="meal-type-actions">
-                    <button type="button" class="btn btn-primary" data-action="swipe" data-meal="${m}">Swipe through</button>
-                    <button type="button" class="meal-type-browse-link" data-action="browse-meal" data-meal="${m}">Browse all &rarr;</button>
-                </div>
+                <button type="button" class="meal-type-browse-link" data-action="browse-meal" data-meal="${m}">Browse all &rarr;</button>
             </div>
         `;
     }).join("");
@@ -214,7 +211,10 @@ function wireHome() {
         else if (a === "shopping") el.addEventListener("click", goShopping);
         else if (a === "clear-plan") el.addEventListener("click", clearPlan);
         else if (a === "swipe") el.addEventListener("click", () => goSelect(meal));
-        else if (a === "browse-meal") el.addEventListener("click", () => goBrowse(meal));
+        else if (a === "browse-meal") el.addEventListener("click", (e) => {
+            e.stopPropagation();
+            goBrowse(meal);
+        });
     });
 }
 
@@ -287,6 +287,8 @@ function selectHtml() {
         <div class="select">
             <div class="card-stage">
                 <div class="swipe-card">
+                    <div class="swipe-indicator swipe-indicator-add">&#10003;</div>
+                    <div class="swipe-indicator swipe-indicator-skip">&times;</div>
                     ${heroHtml(r)}
                     <div class="swipe-body">
                         <h2 class="swipe-name">${escapeHtml(r.name)}</h2>
@@ -331,6 +333,23 @@ function attachSwipe(cardEl) {
     let currentX = 0;
     let dragging = false;
     let horizontal = false;
+    const addIndicator = cardEl.querySelector(".swipe-indicator-add");
+    const skipIndicator = cardEl.querySelector(".swipe-indicator-skip");
+    const THRESHOLD = 100;
+
+    const setIndicators = (dx) => {
+        if (!addIndicator || !skipIndicator) return;
+        if (dx > 0) {
+            addIndicator.style.opacity = String(Math.min(1, dx / THRESHOLD));
+            skipIndicator.style.opacity = "0";
+        } else if (dx < 0) {
+            skipIndicator.style.opacity = String(Math.min(1, Math.abs(dx) / THRESHOLD));
+            addIndicator.style.opacity = "0";
+        } else {
+            addIndicator.style.opacity = "0";
+            skipIndicator.style.opacity = "0";
+        }
+    };
 
     const getPoint = (e) => e.touches ? e.touches[0] : (e.changedTouches ? e.changedTouches[0] : e);
 
@@ -338,6 +357,7 @@ function attachSwipe(cardEl) {
         cardEl.style.transition = "transform 0.2s ease-out, opacity 0.2s ease-out";
         cardEl.style.transform = "";
         cardEl.style.opacity = "";
+        setIndicators(0);
     };
 
     const onStart = (e) => {
@@ -365,6 +385,7 @@ function attachSwipe(cardEl) {
         currentX = dx;
         cardEl.style.transform = `translateX(${dx}px) rotate(${dx / 25}deg)`;
         cardEl.style.opacity = String(Math.max(0.4, 1 - Math.abs(dx) / 400));
+        setIndicators(dx);
     };
 
     const onEnd = () => {
@@ -401,6 +422,8 @@ function animateAndAdvance(direction) {
     const card = document.querySelector(".swipe-card");
     if (!card) { advance(); return; }
     state.animating = true;
+    const indicator = card.querySelector(direction === "right" ? ".swipe-indicator-add" : ".swipe-indicator-skip");
+    if (indicator) indicator.style.opacity = "1";
     void card.offsetWidth;
     card.style.transition = "transform 0.24s ease-out, opacity 0.24s ease-out";
     card.style.transform = direction === "right"
