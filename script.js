@@ -129,13 +129,36 @@ function goSelect(mealType) {
 
 function goSummary() { state.view = "summary"; render(); }
 function goShopping() { state.view = "shopping"; render(); }
+function goBrowse(mealType) {
+    state.activeMealType = mealType;
+    state.view = "browse";
+    render();
+}
 
 function render() {
     const app = document.getElementById("app");
     if (state.view === "home") { app.innerHTML = homeHtml(); wireHome(); }
     else if (state.view === "select") { app.innerHTML = selectHtml(); wireSelect(); }
+    else if (state.view === "browse") { app.innerHTML = browseHtml(); wireBrowse(); }
     else if (state.view === "summary") { app.innerHTML = summaryHtml(); wireSummary(); }
     else if (state.view === "shopping") { app.innerHTML = shoppingHtml(); wireShopping(); }
+}
+
+/* ---------- Shared page header ---------- */
+
+function pageHeaderHtml(centerHtml = "", rightHtml = "") {
+    return `
+        <div class="page-header">
+            <button type="button" class="page-header-home-btn" data-action="home" aria-label="Home">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <path d="M12 3l9 8h-3v10h-4v-6h-4v6h-4v-10h-3z"/>
+                </svg>
+                <span>Home</span>
+            </button>
+            <div class="page-header-center">${centerHtml}</div>
+            <div class="page-header-right">${rightHtml}</div>
+        </div>
+    `;
 }
 
 /* ---------- Home view ---------- */
@@ -147,12 +170,16 @@ function homeHtml() {
         const count = state.recipes.filter(r => r.mealType === m).length;
         const picked = countPickedForMeal(m);
         return `
-            <button type="button" class="meal-type-card" data-meal="${m}">
+            <div class="meal-type-card">
                 <div class="meal-type-icon">${MEAL_LABELS[m].charAt(0)}</div>
                 <div class="meal-type-name">${MEAL_LABELS[m]}</div>
-                <div class="meal-type-meta">${count} recipe${count === 1 ? "" : "s"} to browse</div>
+                <div class="meal-type-meta">${count} recipe${count === 1 ? "" : "s"}</div>
                 ${picked > 0 ? `<div class="meal-type-picked">${picked} in plan</div>` : ""}
-            </button>
+                <div class="meal-type-actions">
+                    <button type="button" class="btn btn-primary" data-action="swipe" data-meal="${m}">Swipe through</button>
+                    <button type="button" class="meal-type-browse-link" data-action="browse-meal" data-meal="${m}">Browse all &rarr;</button>
+                </div>
+            </div>
         `;
     }).join("");
 
@@ -180,14 +207,14 @@ function homeHtml() {
 }
 
 function wireHome() {
-    document.querySelectorAll(".meal-type-card").forEach(el => {
-        el.addEventListener("click", () => goSelect(el.dataset.meal));
-    });
     document.querySelectorAll("[data-action]").forEach(el => {
         const a = el.dataset.action;
+        const meal = el.dataset.meal;
         if (a === "view-plan") el.addEventListener("click", goSummary);
         else if (a === "shopping") el.addEventListener("click", goShopping);
         else if (a === "clear-plan") el.addEventListener("click", clearPlan);
+        else if (a === "swipe") el.addEventListener("click", () => goSelect(meal));
+        else if (a === "browse-meal") el.addEventListener("click", () => goBrowse(meal));
     });
 }
 
@@ -209,25 +236,22 @@ function selectHtml() {
     const picked = countPickedForMeal(mealType);
     const deck = state.selectDeck;
 
-    const topbar = `
-        <div class="select-topbar">
-            <button type="button" class="btn-icon" data-action="home" aria-label="Back home">&larr;</button>
-            <div class="select-topbar-center">
-                <div class="select-meal-label">${MEAL_LABELS[mealType]}</div>
-                <div class="select-running-total ${picked === 0 ? "zero" : ""}">${picked} added</div>
-            </div>
-            <button type="button" class="btn btn-primary" data-action="summary" style="padding:9px 18px;font-size:14px">Done</button>
-        </div>
+    const centerHtml = `
+        <div class="select-meal-label">${MEAL_LABELS[mealType]}</div>
+        <div class="select-running-total ${picked === 0 ? "zero" : ""}">${picked} added</div>
     `;
+    const rightHtml = `
+        <button type="button" class="btn btn-primary" data-action="summary" style="padding:9px 18px;font-size:14px">Done</button>
+    `;
+    const topbar = pageHeaderHtml(centerHtml, rightHtml);
 
     if (deck.length === 0) {
         return `
+            ${topbar}
             <div class="select">
-                ${topbar}
                 <div class="select-empty">
                     <h2>No ${MEAL_LABELS[mealType].toLowerCase()} recipes yet</h2>
                     <p>Add some to your recipes file.</p>
-                    <button type="button" class="btn btn-primary" data-action="home">Back home</button>
                 </div>
             </div>
         `;
@@ -235,13 +259,12 @@ function selectHtml() {
 
     if (state.selectIndex >= deck.length) {
         return `
+            ${topbar}
             <div class="select">
-                ${topbar}
                 <div class="select-empty">
                     <h2>That's all the ${MEAL_LABELS[mealType].toLowerCase()} recipes</h2>
                     <p>You added <strong>${picked}</strong> this session.</p>
                     <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
-                        <button type="button" class="btn btn-secondary" data-action="home">Back home</button>
                         <button type="button" class="btn btn-primary" data-action="summary">See plan</button>
                     </div>
                 </div>
@@ -260,8 +283,8 @@ function selectHtml() {
     const preview = ings.join(", ") + (moreCount > 0 ? `, +${moreCount} more` : "");
 
     return `
+        ${topbar}
         <div class="select">
-            ${topbar}
             <div class="card-stage">
                 <div class="swipe-card">
                     ${heroHtml(r)}
@@ -299,6 +322,64 @@ function wireSelect() {
         else if (a === "add") el.addEventListener("click", addCurrent);
         else if (a === "skip") el.addEventListener("click", skipCurrent);
     });
+    attachSwipe(document.querySelector(".swipe-card"));
+}
+
+function attachSwipe(cardEl) {
+    if (!cardEl) return;
+    let startX = 0, startY = 0;
+    let currentX = 0;
+    let dragging = false;
+    let horizontal = false;
+
+    const getPoint = (e) => e.touches ? e.touches[0] : (e.changedTouches ? e.changedTouches[0] : e);
+
+    const resetCard = () => {
+        cardEl.style.transition = "transform 0.2s ease-out, opacity 0.2s ease-out";
+        cardEl.style.transform = "";
+        cardEl.style.opacity = "";
+    };
+
+    const onStart = (e) => {
+        if (state.animating) return;
+        const p = getPoint(e);
+        startX = p.clientX;
+        startY = p.clientY;
+        currentX = 0;
+        dragging = true;
+        horizontal = false;
+        cardEl.style.transition = "none";
+    };
+
+    const onMove = (e) => {
+        if (!dragging) return;
+        const p = getPoint(e);
+        const dx = p.clientX - startX;
+        const dy = p.clientY - startY;
+        if (!horizontal) {
+            if (Math.abs(dx) < 8 && Math.abs(dy) < 8) return;
+            horizontal = Math.abs(dx) > Math.abs(dy);
+            if (!horizontal) { dragging = false; resetCard(); return; }
+        }
+        if (horizontal && e.cancelable) e.preventDefault();
+        currentX = dx;
+        cardEl.style.transform = `translateX(${dx}px) rotate(${dx / 25}deg)`;
+        cardEl.style.opacity = String(Math.max(0.4, 1 - Math.abs(dx) / 400));
+    };
+
+    const onEnd = () => {
+        if (!dragging) return;
+        dragging = false;
+        const threshold = 100;
+        if (currentX > threshold) addCurrent();
+        else if (currentX < -threshold) skipCurrent();
+        else resetCard();
+    };
+
+    cardEl.addEventListener("touchstart", onStart, { passive: true });
+    cardEl.addEventListener("touchmove", onMove, { passive: false });
+    cardEl.addEventListener("touchend", onEnd);
+    cardEl.addEventListener("touchcancel", onEnd);
 }
 
 function addCurrent() {
@@ -320,7 +401,12 @@ function animateAndAdvance(direction) {
     const card = document.querySelector(".swipe-card");
     if (!card) { advance(); return; }
     state.animating = true;
-    card.classList.add(`swipe-${direction}`);
+    void card.offsetWidth;
+    card.style.transition = "transform 0.24s ease-out, opacity 0.24s ease-out";
+    card.style.transform = direction === "right"
+        ? "translateX(120%) rotate(10deg)"
+        : "translateX(-120%) rotate(-10deg)";
+    card.style.opacity = "0";
     setTimeout(() => {
         state.animating = false;
         advance();
@@ -329,6 +415,87 @@ function animateAndAdvance(direction) {
 
 function advance() {
     state.selectIndex++;
+    render();
+}
+
+/* ---------- Browse view ---------- */
+
+function browseHtml() {
+    const mealType = state.activeMealType;
+    const recipes = state.recipes.filter(r => r.mealType === mealType);
+    const picked = countPickedForMeal(mealType);
+
+    const centerHtml = `
+        <div class="select-meal-label">Browse ${MEAL_LABELS[mealType]}</div>
+        <div class="select-running-total ${picked === 0 ? "zero" : ""}">${picked} added</div>
+    `;
+    const rightHtml = `
+        <button type="button" class="btn btn-primary" data-action="summary" style="padding:9px 18px;font-size:14px">Done</button>
+    `;
+
+    if (recipes.length === 0) {
+        return `
+            ${pageHeaderHtml(centerHtml, rightHtml)}
+            <div class="browse">
+                <div class="select-empty">
+                    <h2>No ${MEAL_LABELS[mealType].toLowerCase()} recipes yet</h2>
+                    <p>Add some to your recipes file.</p>
+                </div>
+            </div>
+        `;
+    }
+
+    const cardsHtml = recipes.map(r => {
+        const count = state.selections[r.id] || 0;
+        const selected = count > 0;
+        const cuisineKey = (r.cuisine || "any").toLowerCase().replace(/[^a-z]/g, "-");
+        const totalMins = (r.prepMins || 0) + (r.cookMins || 0);
+        const yoursHtml = r.source === "user" ? `<span class="tag yours">Yours</span>` : "";
+        const vibesHtml = (r.vibes || []).slice(0, 2).map(v => `<span class="tag">${escapeHtml(v)}</span>`).join("");
+        const countBadge = count > 0
+            ? `<div class="browse-card-count">&#10003;${count > 1 ? " &times;" + count : ""}</div>`
+            : "";
+        return `
+            <button type="button" class="browse-card ${selected ? "selected" : ""}" data-action="toggle" data-id="${r.id}">
+                <div class="browse-card-hero hero-${cuisineKey}">
+                    ${countBadge}
+                </div>
+                <div class="browse-card-body">
+                    <div class="browse-card-name">${escapeHtml(r.name)}</div>
+                    <div class="browse-card-meta">${totalMins} min &middot; serves ${r.servings || 1}</div>
+                    <div class="browse-card-tags">
+                        ${yoursHtml}
+                        <span class="tag cuisine">${escapeHtml(r.cuisine)}</span>
+                        ${vibesHtml}
+                    </div>
+                </div>
+            </button>
+        `;
+    }).join("");
+
+    return `
+        ${pageHeaderHtml(centerHtml, rightHtml)}
+        <div class="browse">
+            <p class="browse-hint">Tap a recipe to add it. Tap again to remove.</p>
+            <div class="browse-grid">${cardsHtml}</div>
+        </div>
+    `;
+}
+
+function wireBrowse() {
+    document.querySelectorAll("[data-action]").forEach(el => {
+        const a = el.dataset.action;
+        if (a === "home") el.addEventListener("click", goHome);
+        else if (a === "summary") el.addEventListener("click", goSummary);
+        else if (a === "toggle") el.addEventListener("click", () => toggleBrowseSelection(el.dataset.id));
+    });
+}
+
+function toggleBrowseSelection(id) {
+    const cur = state.selections[id] || 0;
+    if (cur > 0) delete state.selections[id];
+    else state.selections[id] = 1;
+    saveSelections();
     render();
 }
 
@@ -342,6 +509,7 @@ function summaryHtml() {
 
     if (picked.length === 0) {
         return `
+            ${pageHeaderHtml()}
             <div class="summary">
                 <div class="summary-header"><h1>Your plan</h1></div>
                 <div class="summary-empty">
@@ -379,12 +547,12 @@ function summaryHtml() {
     }).join("");
 
     return `
+        ${pageHeaderHtml()}
         <div class="summary">
             <div class="summary-header"><h1>Your plan</h1></div>
-            <p class="summary-subtitle">${total} meal${total === 1 ? "" : "s"} &middot; adjust counts, remove any, or add more.</p>
+            <p class="summary-subtitle">${total} meal${total === 1 ? "" : "s"} &middot; adjust counts or remove any.</p>
             ${groups}
-            <div class="summary-actions">
-                <button type="button" class="btn btn-secondary" data-action="home">&#43; Add more meals</button>
+            <div class="summary-actions" style="justify-content:center">
                 <button type="button" class="btn btn-primary btn-large" data-action="shopping">Generate shopping list &rarr;</button>
             </div>
         </div>
@@ -425,10 +593,10 @@ function shoppingHtml() {
     const names = uniqueIngredientNames();
     if (names.length === 0) {
         return `
+            ${pageHeaderHtml()}
             <div class="shopping">
                 <div class="shopping-header"><h1>Shopping list</h1></div>
                 <p style="color:var(--text-muted)">Pick some meals first.</p>
-                <button type="button" class="btn btn-secondary" data-action="home">Back home</button>
             </div>
         `;
     }
@@ -455,6 +623,7 @@ function shoppingHtml() {
             `;
         }).join("");
     return `
+        ${pageHeaderHtml()}
         <div class="shopping">
             <div class="shopping-header">
                 <h1>Shopping list</h1>
