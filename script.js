@@ -4,6 +4,56 @@ const STORAGE_CHECKED = "recipe-planner-checked-v3";
 const MEAL_TYPES = ["breakfast", "lunch", "dinner"];
 const MEAL_LABELS = { breakfast: "Breakfast", lunch: "Lunch", dinner: "Dinner" };
 
+const SECTION_ORDER = [
+    "Fruit & veg",
+    "Meat & fish",
+    "Dairy & eggs",
+    "Bakery",
+    "Frozen",
+    "Tins & jars",
+    "Pasta, rice & grains",
+    "Herbs, spices & baking",
+    "Oils, sauces & condiments",
+    "Other"
+];
+
+const SECTION_RULES = [
+    ["Frozen", ["frozen"]],
+    ["Herbs, spices & baking", ["stock cube", "gravy granule", "chocolate powder", "spice mix", "chia seed", "baking powder", "curry powder"]],
+    ["Oils, sauces & condiments", ["olive oil", "sesame oil", "vegetable oil", "sunflower oil", "rapeseed oil", "peanut butter", "curry paste", "soy sauce", "fish sauce", "black bean sauce", "worcestershire sauce"]],
+    ["Tins & jars", ["baked bean", "tinned", "canned", "kalamata olive", "black olive", "green olive", "coconut milk", "tomato puree"]],
+    ["Bakery", ["pitta", "tortilla", "wrap", "sourdough", "bagel", "baguette", "flatbread", "bread"]],
+    ["Fruit & veg", ["fresh mint", "fresh coriander", "fresh basil", "fresh thyme", "fresh parsley", "fresh dill", "fresh rosemary", "thai basil"]],
+    ["Fruit & veg", ["baby gem", "baby spinach", "baby corn", "cherry tomato", "spring onion", "red onion", "red pepper", "green bean", "chestnut mushroom", "romaine lettuce", "garlic clove", "garlic bulb", "celery stick", "new potato"]],
+    ["Meat & fish", ["mince", "chicken", "beef", "lamb", "pork", "sausage", "bacon", "steak", "fish", "tuna", "salmon", "cod", "prawn", "kofta", "turkey", "duck", "ham"]],
+    ["Pasta, rice & grains", ["pasta", "spaghetti", "noodle", "rice", "oats", "granola", "quinoa", "couscous", "cereal", "flour", "walnut", "almond", "cashew", "pecan"]],
+    ["Dairy & eggs", ["yoghurt", "yogurt", "milk", "butter", "cheese", "feta", "parmesan", "halloumi", "mozzarella", "cheddar", "cream", "egg"]],
+    ["Herbs, spices & baking", ["oregano", "cumin", "coriander", "turmeric", "paprika", "cinnamon", "garam masala", "chilli", "salt", "black pepper", "sugar", "vanilla", "yeast", "cocoa", "seed"]],
+    ["Oils, sauces & condiments", ["oil", "vinegar", "sauce", "dressing", "hummus", "jam", "honey", "mustard", "stock", "gravy", "mayonnaise", "ketchup", "syrup"]],
+    ["Tins & jars", ["olive", "chickpea", "cannellini", "kidney bean", "butter bean"]],
+    ["Fruit & veg", ["onion", "shallot", "garlic", "carrot", "potato", "parsnip", "celery", "leek", "cabbage", "broccoli", "cauliflower", "spinach", "kale", "lettuce", "tomato", "cucumber", "pepper", "courgette", "aubergine", "mushroom", "corn", "pea", "bean", "lemon", "lime", "orange", "apple", "banana", "berry", "grape", "avocado", "ginger", "mint", "basil", "thyme", "rosemary", "parsley", "dill", "chive", "romaine", "gem", "mangetout", "asparagus"]]
+];
+
+function classifyIngredient(name) {
+    const lower = String(name || "").toLowerCase();
+    for (const [section, tokens] of SECTION_RULES) {
+        for (const t of tokens) {
+            if (lower.includes(t)) return section;
+        }
+    }
+    return "Other";
+}
+
+function groupBySection(names) {
+    const groups = {};
+    for (const n of names) {
+        const s = classifyIngredient(n);
+        if (!groups[s]) groups[s] = [];
+        groups[s].push(n);
+    }
+    return groups;
+}
+
 const state = {
     view: "loading",
     recipes: [],
@@ -384,15 +434,26 @@ function shoppingHtml() {
     }
     const alreadyHave = names.filter(n => state.checkedItems.has(n)).length;
     const toBuy = names.length - alreadyHave;
-    const listHtml = names.map(n => {
-        const checked = state.checkedItems.has(n);
-        return `
-            <div class="shopping-item ${checked ? "checked" : ""}" data-name="${escapeHtml(n)}">
-                <span class="shopping-checkbox">&#10003;</span>
-                <span class="shopping-name">${escapeHtml(n)}</span>
-            </div>
-        `;
-    }).join("");
+    const grouped = groupBySection(names);
+    const listHtml = SECTION_ORDER
+        .filter(s => grouped[s] && grouped[s].length > 0)
+        .map(s => {
+            const items = grouped[s].map(n => {
+                const checked = state.checkedItems.has(n);
+                return `
+                    <div class="shopping-item ${checked ? "checked" : ""}" data-name="${escapeHtml(n)}">
+                        <span class="shopping-checkbox">&#10003;</span>
+                        <span class="shopping-name">${escapeHtml(n)}</span>
+                    </div>
+                `;
+            }).join("");
+            return `
+                <div class="shopping-section">
+                    <div class="shopping-section-label">${escapeHtml(s)}</div>
+                    ${items}
+                </div>
+            `;
+        }).join("");
     return `
         <div class="shopping">
             <div class="shopping-header">
@@ -476,8 +537,17 @@ function buildShoppingListText() {
     lines.push("SHOPPING LIST");
     lines.push("");
     const toBuy = names.filter(n => !state.checkedItems.has(n));
-    if (toBuy.length === 0) lines.push("(nothing to buy - you have everything!)");
-    else for (const n of toBuy) lines.push(`- ${capitalize(n)}`);
+    if (toBuy.length === 0) {
+        lines.push("(nothing to buy - you have everything!)");
+    } else {
+        const grouped = groupBySection(toBuy);
+        for (const s of SECTION_ORDER) {
+            if (!grouped[s] || grouped[s].length === 0) continue;
+            lines.push(s);
+            for (const n of grouped[s]) lines.push(`- ${capitalize(n)}`);
+            lines.push("");
+        }
+    }
     return lines.join("\n");
 }
 
