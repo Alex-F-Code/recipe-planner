@@ -212,29 +212,33 @@ button {
 .meal-type-grid {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    margin-bottom: 24px;
+    gap: 14px;
+    flex: 1;
+    margin-bottom: 8px;
 }
 
 @media (max-width: 720px) {
-    .home { padding: 32px 16px 24px; }
-    .home-header h1 { font-size: 28px; margin-bottom: 8px; }
+    .home { padding: 28px 16px 16px; }
+    .home-header h1 { font-size: 28px; margin-bottom: 6px; }
     .home-question { font-size: 15px; margin-bottom: 20px; }
-    .meal-type-grid { gap: 10px; }
+    .meal-type-grid { gap: 14px; }
 }
 
 .meal-type-card {
     background: var(--surface);
     border: 1px solid var(--border-soft);
     border-radius: var(--radius);
-    padding: 18px;
+    padding: 22px 22px;
     cursor: pointer;
     transition: box-shadow 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 18px;
     box-shadow: var(--shadow-sm);
     text-align: left;
+    flex: 1;
+    min-height: 100px;
+    max-height: 240px;
 }
 
 .meal-type-card:hover {
@@ -584,21 +588,21 @@ body { padding-bottom: 82px; }
 }
 
 .meal-type-icon {
-    width: 48px;
-    height: 48px;
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
     background: var(--accent-light);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 22px;
+    font-size: 26px;
     font-weight: 700;
     color: var(--accent);
     flex-shrink: 0;
 }
 
 .meal-type-name {
-    font-size: 19px;
+    font-size: 22px;
     font-weight: 600;
     color: var(--text);
     letter-spacing: -0.01em;
@@ -606,7 +610,7 @@ body { padding-bottom: 82px; }
 }
 
 .meal-type-meta {
-    font-size: 13px;
+    font-size: 14px;
     color: var(--text-muted);
 }
 
