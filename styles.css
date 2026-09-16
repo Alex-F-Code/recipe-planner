@@ -213,12 +213,11 @@ button {
     display: flex;
     flex-direction: column;
     gap: 14px;
-    flex: 1;
     margin-bottom: 8px;
 }
 
 @media (max-width: 720px) {
-    .home { padding: 28px 16px 16px; }
+    .home { padding: 28px 12px 16px; }
     .home-header h1 { font-size: 28px; margin-bottom: 6px; }
     .home-question { font-size: 15px; margin-bottom: 20px; }
     .meal-type-grid { gap: 14px; }
@@ -228,17 +227,15 @@ button {
     background: var(--surface);
     border: 1px solid var(--border-soft);
     border-radius: var(--radius);
-    padding: 22px 22px;
+    padding: 26px 22px;
     cursor: pointer;
     transition: box-shadow 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
     display: flex;
     align-items: center;
-    gap: 18px;
+    gap: 20px;
     box-shadow: var(--shadow-sm);
     text-align: left;
-    flex: 1;
-    min-height: 100px;
-    max-height: 240px;
+    min-height: 180px;
 }
 
 .meal-type-card:hover {
