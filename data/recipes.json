@@ -415,6 +415,65 @@
         "Char the tortillas on a dry hot pan.",
         "Assemble: tortilla, green chutney, yoghurt sauce, kofta, potatoes, lettuce, tomato, pickled shallots. Roll up."
       ]
+    },
+    {
+      "id": "pad-kra-pao",
+      "name": "Pad Kra Pao",
+      "mealType": "dinner",
+      "cuisine": "thai",
+      "vibes": ["quick", "spicy", "hearty"],
+      "source": "user",
+      "servings": 1,
+      "prepMins": 8,
+      "cookMins": 10,
+      "ingredients": [
+        {"item": "minced pork", "qty": 115, "unit": "g"},
+        {"item": "jasmine rice", "qty": 75, "unit": "g"},
+        {"item": "shallot", "qty": 0.5, "unit": ""},
+        {"item": "garlic clove", "qty": 2, "unit": ""},
+        {"item": "red chilli", "qty": 1, "unit": ""},
+        {"item": "thai basil", "qty": 1, "unit": "handful"},
+        {"item": "vegetable oil", "qty": 0.75, "unit": "tbsp"},
+        {"item": "sugar", "qty": 0.25, "unit": "tsp"},
+        {"item": "fish sauce", "qty": 0.75, "unit": "tsp"},
+        {"item": "light soy sauce", "qty": 0.75, "unit": "tsp"},
+        {"item": "dark soy sauce", "qty": 0.5, "unit": "tsp"},
+        {"item": "oyster sauce", "qty": 0.5, "unit": "tsp"},
+        {"item": "chicken stock", "qty": 20, "unit": "ml"}
+      ],
+      "method": [
+        "Cook the jasmine rice per packet instructions.",
+        "Heat the oil in a wok over medium-high heat. Add the sliced shallot and garlic and fry for 3 minutes.",
+        "Add the sliced chilli (deseed first if you want less heat) and cook for another minute.",
+        "Crank up the heat. Add the minced pork, breaking it into small bits and letting it crisp.",
+        "Add sugar, fish sauce, light soy sauce, dark soy sauce and oyster sauce. Stir-fry another minute.",
+        "Deglaze with the chicken stock - it should cook off quickly on the high heat.",
+        "Add the basil and stir-fry until wilted. Serve over the rice."
+      ]
+    },
+    {
+      "id": "wrap-pizza",
+      "name": "Wrap Pizza",
+      "mealType": "dinner",
+      "cuisine": "italian",
+      "vibes": ["quick", "budget", "comfort"],
+      "source": "user",
+      "servings": 1,
+      "prepMins": 5,
+      "cookMins": 12,
+      "ingredients": [
+        {"item": "tortilla wrap", "qty": 2, "unit": ""},
+        {"item": "tomato passata", "qty": 250, "unit": "g"},
+        {"item": "grated cheese", "qty": 100, "unit": "g"},
+        {"item": "pizza toppings", "qty": 1, "unit": "small handful"}
+      ],
+      "method": [
+        "Preheat oven to 180C.",
+        "Place the wraps on a baking tray and crisp in the oven for 3-4 minutes.",
+        "Spread passata thinly over each wrap.",
+        "Sprinkle with grated cheese, then add toppings. Flex to what you have: ham, chorizo, sweetcorn, peppers, olives, mushrooms - anything goes.",
+        "Bake for 8-10 minutes until the cheese is bubbly and the edges are crisp."
+      ]
     }
   ]
 }

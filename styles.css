@@ -858,27 +858,85 @@ button {
     font-weight: 500;
 }
 
-.summary-item {
-    display: flex;
-    align-items: center;
-    padding: 14px 18px;
+.summary-tiles {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 12px;
+}
+
+.summary-tile {
     background: var(--surface);
     border: 1px solid var(--border-soft);
     border-radius: var(--radius);
-    margin-bottom: 8px;
-    gap: 12px;
+    overflow: hidden;
     box-shadow: var(--shadow-sm);
-}
-
-.summary-item-name {
-    flex: 1;
-    font-size: 15px;
-    font-weight: 500;
-    color: var(--text);
+    display: flex;
+    flex-direction: column;
     cursor: pointer;
+    transition: box-shadow 0.15s ease, transform 0.15s ease, border-color 0.15s ease;
+    text-align: left;
+    font-family: inherit;
 }
 
-.summary-item-name:hover { color: var(--accent); }
+.summary-tile:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+    border-color: var(--border);
+}
+
+.summary-tile:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+.summary-tile-hero {
+    height: 72px;
+    position: relative;
+}
+
+.summary-tile-count-badge {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: rgba(255, 255, 255, 0.95);
+    color: var(--text);
+    border-radius: var(--radius-pill);
+    padding: 3px 10px;
+    font-size: 13px;
+    font-weight: 700;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.summary-tile-body {
+    padding: 12px 14px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex: 1;
+}
+
+.summary-tile-name {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.3;
+}
+
+.summary-tile-meta {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.summary-tile-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border-soft);
+}
 
 .summary-counter {
     display: inline-flex;

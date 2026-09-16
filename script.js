@@ -20,11 +20,11 @@ const SECTION_ORDER = [
 const SECTION_RULES = [
     ["Frozen", ["frozen"]],
     ["Herbs, spices & baking", ["stock cube", "gravy granule", "chocolate powder", "spice mix", "chia seed", "baking powder", "curry powder"]],
-    ["Oils, sauces & condiments", ["olive oil", "sesame oil", "vegetable oil", "sunflower oil", "rapeseed oil", "peanut butter", "curry paste", "soy sauce", "fish sauce", "black bean sauce", "worcestershire sauce"]],
-    ["Tins & jars", ["baked bean", "tinned", "canned", "kalamata olive", "black olive", "green olive", "coconut milk", "tomato puree"]],
+    ["Oils, sauces & condiments", ["olive oil", "sesame oil", "vegetable oil", "sunflower oil", "rapeseed oil", "peanut butter", "curry paste", "soy sauce", "fish sauce", "oyster sauce", "black bean sauce", "worcestershire sauce", "chicken stock", "chicken broth", "beef stock", "beef broth", "vegetable stock", "vegetable broth"]],
+    ["Tins & jars", ["baked bean", "tinned", "canned", "kalamata olive", "black olive", "green olive", "coconut milk", "tomato puree", "passata"]],
     ["Bakery", ["pitta", "tortilla", "wrap", "sourdough", "bagel", "baguette", "flatbread", "bread"]],
     ["Fruit & veg", ["fresh mint", "fresh coriander", "fresh basil", "fresh thyme", "fresh parsley", "fresh dill", "fresh rosemary", "thai basil"]],
-    ["Fruit & veg", ["baby gem", "baby spinach", "baby corn", "cherry tomato", "spring onion", "red onion", "red pepper", "green bean", "chestnut mushroom", "romaine lettuce", "garlic clove", "garlic bulb", "celery stick", "new potato"]],
+    ["Fruit & veg", ["baby gem", "baby spinach", "baby corn", "cherry tomato", "spring onion", "red onion", "red pepper", "green bean", "chestnut mushroom", "romaine lettuce", "garlic clove", "garlic bulb", "celery stick", "new potato", "red chilli", "green chilli", "chilli pepper"]],
     ["Meat & fish", ["mince", "chicken", "beef", "lamb", "pork", "sausage", "bacon", "steak", "fish", "tuna", "salmon", "cod", "prawn", "kofta", "turkey", "duck", "ham"]],
     ["Pasta, rice & grains", ["pasta", "spaghetti", "noodle", "rice", "oats", "granola", "quinoa", "couscous", "cereal", "flour", "walnut", "almond", "cashew", "pecan"]],
     ["Dairy & eggs", ["yoghurt", "yogurt", "milk", "butter", "cheese", "feta", "parmesan", "halloumi", "mozzarella", "cheddar", "cream", "egg"]],
@@ -547,24 +547,36 @@ function summaryHtml() {
         const items = picked.filter(x => x.recipe.mealType === m);
         if (items.length === 0) return "";
         const subtotal = items.reduce((s, x) => s + x.count, 0);
-        const itemsHtml = items.map(({ recipe, count }) => `
-            <div class="summary-item">
-                <div class="summary-item-name" data-action="view" data-id="${recipe.id}">${escapeHtml(recipe.name)}</div>
-                <div class="summary-counter">
-                    <button type="button" class="summary-counter-btn" data-action="dec" data-id="${recipe.id}">&minus;</button>
-                    <span class="summary-counter-value">${count}</span>
-                    <button type="button" class="summary-counter-btn" data-action="inc" data-id="${recipe.id}">&#43;</button>
+        const itemsHtml = items.map(({ recipe, count }) => {
+            const cuisineKey = (recipe.cuisine || "any").toLowerCase().replace(/[^a-z]/g, "-");
+            const totalMins = (recipe.prepMins || 0) + (recipe.cookMins || 0);
+            return `
+                <div class="summary-tile" data-action="view" data-id="${recipe.id}" role="button" tabindex="0">
+                    <div class="summary-tile-hero hero-${cuisineKey}">
+                        ${count > 1 ? `<div class="summary-tile-count-badge">&times;${count}</div>` : ""}
+                    </div>
+                    <div class="summary-tile-body">
+                        <h3 class="summary-tile-name">${escapeHtml(recipe.name)}</h3>
+                        <div class="summary-tile-meta">${totalMins} min &middot; tap for recipe</div>
+                        <div class="summary-tile-actions">
+                            <div class="summary-counter">
+                                <button type="button" class="summary-counter-btn" data-action="dec" data-id="${recipe.id}">&minus;</button>
+                                <span class="summary-counter-value">${count}</span>
+                                <button type="button" class="summary-counter-btn" data-action="inc" data-id="${recipe.id}">&#43;</button>
+                            </div>
+                            <button type="button" class="summary-remove" data-action="remove" data-id="${recipe.id}" aria-label="Remove">&times;</button>
+                        </div>
+                    </div>
                 </div>
-                <button type="button" class="summary-remove" data-action="remove" data-id="${recipe.id}" aria-label="Remove">&times;</button>
-            </div>
-        `).join("");
+            `;
+        }).join("");
         return `
             <div class="summary-group">
                 <div class="summary-group-header">
                     <h2 class="summary-group-title">${MEAL_LABELS[m]}</h2>
                     <span class="summary-group-count">${subtotal} meal${subtotal === 1 ? "" : "s"}</span>
                 </div>
-                ${itemsHtml}
+                <div class="summary-tiles">${itemsHtml}</div>
             </div>
         `;
     }).join("");
@@ -589,9 +601,9 @@ function wireSummary() {
         if (a === "home") el.addEventListener("click", goHome);
         else if (a === "shopping") el.addEventListener("click", goShopping);
         else if (a === "view") el.addEventListener("click", () => openModal(id));
-        else if (a === "inc") el.addEventListener("click", () => adjust(id, +1));
-        else if (a === "dec") el.addEventListener("click", () => adjust(id, -1));
-        else if (a === "remove") el.addEventListener("click", () => removeMeal(id));
+        else if (a === "inc") el.addEventListener("click", (e) => { e.stopPropagation(); adjust(id, +1); });
+        else if (a === "dec") el.addEventListener("click", (e) => { e.stopPropagation(); adjust(id, -1); });
+        else if (a === "remove") el.addEventListener("click", (e) => { e.stopPropagation(); removeMeal(id); });
     });
 }
 
