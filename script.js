@@ -246,10 +246,11 @@ function homeHtml() {
         return `
             <div class="meal-type-card" data-action="swipe" data-meal="${m}" role="button" tabindex="0">
                 <div class="meal-type-icon">${MEAL_LABELS[m].charAt(0)}</div>
-                <div class="meal-type-name">${MEAL_LABELS[m]}</div>
-                <div class="meal-type-meta">${count} recipe${count === 1 ? "" : "s"}</div>
-                ${picked > 0 ? `<div class="meal-type-picked">${picked} in plan</div>` : ""}
-                <button type="button" class="meal-type-browse-link" data-action="browse-meal" data-meal="${m}">Browse all &rarr;</button>
+                <div class="meal-type-main">
+                    <div class="meal-type-name">${MEAL_LABELS[m]}</div>
+                    <div class="meal-type-meta">${count} recipe${count === 1 ? "" : "s"}${picked > 0 ? ` &middot; <span class="meal-type-picked">${picked} in plan</span>` : ""}</div>
+                </div>
+                <button type="button" class="meal-type-browse-link" data-action="browse-meal" data-meal="${m}">Browse all</button>
             </div>
         `;
     }).join("");
@@ -299,10 +300,7 @@ function selectHtml() {
         <div class="select-meal-label">${MEAL_LABELS[mealType]}</div>
         <div class="select-running-total ${picked === 0 ? "zero" : ""}">${picked} added</div>
     `;
-    const rightHtml = `
-        <button type="button" class="btn btn-primary" data-action="summary" style="padding:9px 18px;font-size:14px">Done</button>
-    `;
-    const topbar = pageHeaderHtml(centerHtml, rightHtml);
+    const topbar = pageHeaderHtml(centerHtml, "");
 
     if (deck.length === 0) {
         return `
@@ -510,9 +508,7 @@ function browseHtml() {
         <div class="select-meal-label">Browse ${MEAL_LABELS[mealType]}</div>
         <div class="select-running-total ${picked === 0 ? "zero" : ""}">${picked} added</div>
     `;
-    const rightHtml = `
-        <button type="button" class="btn btn-primary" data-action="summary" style="padding:9px 18px;font-size:14px">Done</button>
-    `;
+    const rightHtml = "";
 
     if (recipes.length === 0) {
         return `

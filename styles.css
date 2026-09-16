@@ -210,38 +210,37 @@ button {
 }
 
 .meal-type-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-    margin-bottom: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 24px;
 }
 
 @media (max-width: 720px) {
-    .home { padding: 40px 20px; }
-    .home-header h1 { font-size: 32px; }
-    .home-question { font-size: 17px; margin-bottom: 32px; }
-    .meal-type-grid { grid-template-columns: 1fr; gap: 14px; }
+    .home { padding: 32px 16px 24px; }
+    .home-header h1 { font-size: 28px; margin-bottom: 8px; }
+    .home-question { font-size: 15px; margin-bottom: 20px; }
+    .meal-type-grid { gap: 10px; }
 }
 
 .meal-type-card {
     background: var(--surface);
     border: 1px solid var(--border-soft);
-    border-radius: var(--radius-lg);
-    padding: 32px 20px 20px;
+    border-radius: var(--radius);
+    padding: 18px;
     cursor: pointer;
     transition: box-shadow 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
     display: flex;
-    flex-direction: column;
     align-items: center;
-    gap: 10px;
+    gap: 16px;
     box-shadow: var(--shadow-sm);
-    text-align: center;
+    text-align: left;
 }
 
 .meal-type-card:hover {
     box-shadow: var(--shadow-md);
     border-color: var(--accent);
-    transform: translateY(-3px);
+    transform: translateY(-2px);
 }
 
 .meal-type-card:focus-visible {
@@ -249,34 +248,32 @@ button {
     outline-offset: 2px;
 }
 
-.meal-type-actions {
+.meal-type-main {
+    flex: 1;
+    min-width: 0;
     display: flex;
     flex-direction: column;
-    gap: 6px;
-    margin-top: 12px;
-    width: 100%;
-    align-items: stretch;
-}
-
-.meal-type-actions .btn {
-    justify-content: center;
-    width: 100%;
+    gap: 3px;
 }
 
 .meal-type-browse-link {
-    background: none;
-    border: none;
+    background: var(--surface-warm);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-pill);
+    padding: 6px 12px;
     color: var(--text-muted);
     cursor: pointer;
-    font-size: 13px;
-    padding: 6px;
+    font-size: 12px;
     font-family: inherit;
-    transition: color 0.15s ease;
-    font-weight: 500;
+    font-weight: 600;
+    flex-shrink: 0;
+    transition: color 0.15s ease, background 0.15s ease, border-color 0.15s ease;
 }
 
 .meal-type-browse-link:hover {
+    background: var(--surface);
     color: var(--accent);
+    border-color: var(--accent);
 }
 
 /* -------- Bottom utility bar (persistent) -------- */
@@ -587,24 +584,25 @@ body { padding-bottom: 82px; }
 }
 
 .meal-type-icon {
-    width: 60px;
-    height: 60px;
+    width: 48px;
+    height: 48px;
     border-radius: 50%;
     background: var(--accent-light);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 24px;
+    font-size: 22px;
     font-weight: 700;
     color: var(--accent);
-    margin-bottom: 4px;
+    flex-shrink: 0;
 }
 
 .meal-type-name {
-    font-size: 22px;
+    font-size: 19px;
     font-weight: 600;
     color: var(--text);
     letter-spacing: -0.01em;
+    line-height: 1.2;
 }
 
 .meal-type-meta {
@@ -613,13 +611,8 @@ body { padding-bottom: 82px; }
 }
 
 .meal-type-picked {
-    background: var(--tick-light);
     color: var(--tick);
-    border-radius: var(--radius-pill);
-    padding: 3px 10px;
-    font-size: 12px;
     font-weight: 600;
-    margin-top: 6px;
 }
 
 .home-plan-summary {
@@ -675,11 +668,11 @@ body { padding-bottom: 82px; }
 }
 
 .select-meal-label {
-    font-size: 13px;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--text-muted);
-    font-weight: 600;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: -0.02em;
+    line-height: 1.1;
 }
 
 .select-running-total {
