@@ -1,5 +1,6 @@
 const STORAGE_SELECTIONS = "recipe-planner-selections-v3";
 const STORAGE_CHECKED = "recipe-planner-checked-v3";
+const STORAGE_PEOPLE = "recipe-planner-people-v1";
 
 const MEAL_TYPES = ["breakfast", "lunch", "dinner"];
 const MEAL_LABELS = { breakfast: "Breakfast", lunch: "Lunch", dinner: "Dinner" };
@@ -62,6 +63,7 @@ const state = {
     selectIndex: 0,
     selections: {},
     checkedItems: new Set(),
+    peopleCount: 2,
     animating: false
 };
 
@@ -103,6 +105,23 @@ function loadSaved() {
         const c = localStorage.getItem(STORAGE_CHECKED);
         if (c) state.checkedItems = new Set(JSON.parse(c));
     } catch (e) { state.checkedItems = new Set(); }
+    try {
+        const p = localStorage.getItem(STORAGE_PEOPLE);
+        const parsed = parseInt(p, 10);
+        if (!Number.isNaN(parsed) && parsed >= 1 && parsed <= 12) state.peopleCount = parsed;
+    } catch (e) {}
+}
+
+function savePeople() {
+    localStorage.setItem(STORAGE_PEOPLE, String(state.peopleCount));
+}
+
+function adjustPeople(delta) {
+    const next = Math.max(1, Math.min(12, state.peopleCount + delta));
+    if (next === state.peopleCount) return;
+    state.peopleCount = next;
+    savePeople();
+    render();
 }
 
 function saveSelections() {
@@ -137,11 +156,42 @@ function goBrowse(mealType) {
 
 function render() {
     const app = document.getElementById("app");
-    if (state.view === "home") { app.innerHTML = homeHtml(); wireHome(); }
-    else if (state.view === "select") { app.innerHTML = selectHtml(); wireSelect(); }
-    else if (state.view === "browse") { app.innerHTML = browseHtml(); wireBrowse(); }
-    else if (state.view === "summary") { app.innerHTML = summaryHtml(); wireSummary(); }
-    else if (state.view === "shopping") { app.innerHTML = shoppingHtml(); wireShopping(); }
+    let viewHtml = "";
+    let wireFn = null;
+    if (state.view === "home") { viewHtml = homeHtml(); wireFn = wireHome; }
+    else if (state.view === "select") { viewHtml = selectHtml(); wireFn = wireSelect; }
+    else if (state.view === "browse") { viewHtml = browseHtml(); wireFn = wireBrowse; }
+    else if (state.view === "summary") { viewHtml = summaryHtml(); wireFn = wireSummary; }
+    else if (state.view === "shopping") { viewHtml = shoppingHtml(); wireFn = wireShopping; }
+    app.innerHTML = peopleBannerHtml() + viewHtml;
+    wirePeopleBanner();
+    if (wireFn) wireFn();
+}
+
+/* ---------- People banner (persistent across pages) ---------- */
+
+function peopleBannerHtml() {
+    const n = state.peopleCount;
+    return `
+        <div class="people-banner">
+            <span class="people-banner-label">Cooking for</span>
+            <div class="people-stepper">
+                <button type="button" class="people-stepper-btn" data-action="people-dec" aria-label="Fewer people">&minus;</button>
+                <span class="people-stepper-value">${n}</span>
+                <button type="button" class="people-stepper-btn" data-action="people-inc" aria-label="More people">&#43;</button>
+            </div>
+            <span class="people-banner-label">${n === 1 ? "person" : "people"}</span>
+        </div>
+    `;
+}
+
+function wirePeopleBanner() {
+    document.querySelectorAll('[data-action="people-inc"]').forEach(el => {
+        el.addEventListener("click", (e) => { e.stopPropagation(); adjustPeople(+1); });
+    });
+    document.querySelectorAll('[data-action="people-dec"]').forEach(el => {
+        el.addEventListener("click", (e) => { e.stopPropagation(); adjustPeople(-1); });
+    });
 }
 
 /* ---------- Shared page header ---------- */
@@ -299,7 +349,7 @@ function selectHtml() {
                             <span class="tag cuisine">${escapeHtml(r.cuisine)}</span>
                             ${vibesHtml}
                         </div>
-                        <div class="swipe-meta">${totalMins} min &middot; serves ${r.servings || 1}${currentCount > 0 ? ` &middot; already in plan &times;${currentCount}` : ""}</div>
+                        <div class="swipe-meta">${totalMins} min &middot; for ${state.peopleCount} ${state.peopleCount === 1 ? "person" : "people"}${currentCount > 0 ? ` &middot; already in plan &times;${currentCount}` : ""}</div>
                         <div class="swipe-ingredients-preview">
                             <strong>Ingredients:</strong> ${escapeHtml(preview)}
                         </div>
@@ -485,7 +535,7 @@ function browseHtml() {
                 </div>
                 <div class="browse-card-body">
                     <div class="browse-card-name">${escapeHtml(r.name)}</div>
-                    <div class="browse-card-meta">${totalMins} min &middot; serves ${r.servings || 1}</div>
+                    <div class="browse-card-meta">${totalMins} min &middot; for ${state.peopleCount} ${state.peopleCount === 1 ? "person" : "people"}</div>
                     <div class="browse-card-tags">
                         ${yoursHtml}
                         <span class="tag cuisine">${escapeHtml(r.cuisine)}</span>
@@ -789,8 +839,9 @@ function openModal(id) {
     const wrap = document.createElement("div");
     wrap.className = "modal";
     const yoursHtml = r.source === "user" ? `<span class="tag yours">Yours</span>` : "";
+    const scale = state.peopleCount;
     const ingHtml = (r.ingredients || []).map(ing =>
-        `<li>${formatQty(ing.qty, ing.unit)} ${escapeHtml(ing.item)}</li>`
+        `<li>${formatQty((Number(ing.qty) || 0) * scale, ing.unit)} ${escapeHtml(ing.item)}</li>`
     ).join("");
     const methodHtml = (r.method || []).map(step => `<li>${escapeHtml(step)}</li>`).join("");
     wrap.innerHTML = `
@@ -798,7 +849,7 @@ function openModal(id) {
         <div class="modal-content">
             <button class="modal-close" data-close type="button" aria-label="Close">&times;</button>
             <h2>${escapeHtml(r.name)}</h2>
-            <div class="modal-meta">${(r.prepMins || 0)} min prep &middot; ${(r.cookMins || 0)} min cook &middot; serves ${r.servings || 1}</div>
+            <div class="modal-meta">${(r.prepMins || 0)} min prep &middot; ${(r.cookMins || 0)} min cook &middot; scaled for ${scale} ${scale === 1 ? "person" : "people"}</div>
             <div class="modal-tags">
                 ${yoursHtml}
                 <span class="tag cuisine">${escapeHtml(r.cuisine)}</span>
