@@ -45,12 +45,12 @@ function classifyIngredient(name) {
     return "Other";
 }
 
-function groupBySection(names) {
+function groupBySection(items) {
     const groups = {};
-    for (const n of names) {
-        const s = classifyIngredient(n);
+    for (const item of items) {
+        const s = classifyIngredient(item.name);
         if (!groups[s]) groups[s] = [];
-        groups[s].push(n);
+        groups[s].push(item);
     }
     return groups;
 }
@@ -602,20 +602,21 @@ function summaryHtml() {
             const totalMins = (recipe.prepMins || 0) + (recipe.cookMins || 0);
             return `
                 <div class="summary-tile" data-action="view" data-id="${recipe.id}" role="button" tabindex="0">
-                    <div class="summary-tile-hero hero-${cuisineKey}">
-                        ${count > 1 ? `<div class="summary-tile-count-badge">&times;${count}</div>` : ""}
-                    </div>
-                    <div class="summary-tile-body">
-                        <h3 class="summary-tile-name">${escapeHtml(recipe.name)}</h3>
-                        <div class="summary-tile-meta">${totalMins} min &middot; tap for recipe</div>
-                        <div class="summary-tile-actions">
-                            <div class="summary-counter">
-                                <button type="button" class="summary-counter-btn" data-action="dec" data-id="${recipe.id}">&minus;</button>
-                                <span class="summary-counter-value">${count}</span>
-                                <button type="button" class="summary-counter-btn" data-action="inc" data-id="${recipe.id}">&#43;</button>
-                            </div>
-                            <button type="button" class="summary-remove" data-action="remove" data-id="${recipe.id}" aria-label="Remove">&times;</button>
+                    <div class="summary-tile-accent hero-${cuisineKey}"></div>
+                    <div class="summary-tile-main">
+                        <div class="summary-tile-name-row">
+                            <h3 class="summary-tile-name">${escapeHtml(recipe.name)}</h3>
+                            ${count > 1 ? `<span class="summary-tile-count-badge">&times;${count}</span>` : ""}
                         </div>
+                        <div class="summary-tile-meta">${totalMins} min</div>
+                    </div>
+                    <div class="summary-tile-controls">
+                        <div class="summary-counter">
+                            <button type="button" class="summary-counter-btn" data-action="dec" data-id="${recipe.id}">&minus;</button>
+                            <span class="summary-counter-value">${count}</span>
+                            <button type="button" class="summary-counter-btn" data-action="inc" data-id="${recipe.id}">&#43;</button>
+                        </div>
+                        <button type="button" class="summary-remove" data-action="remove" data-id="${recipe.id}" aria-label="Remove">&times;</button>
                     </div>
                 </div>
             `;
@@ -675,8 +676,8 @@ function removeMeal(id) {
 /* ---------- Shopping view ---------- */
 
 function shoppingHtml() {
-    const names = uniqueIngredientNames();
-    if (names.length === 0) {
+    const items = aggregateIngredients();
+    if (items.length === 0) {
         return `
             ${pageHeaderHtml()}
             <div class="shopping">
@@ -685,25 +686,26 @@ function shoppingHtml() {
             </div>
         `;
     }
-    const alreadyHave = names.filter(n => state.checkedItems.has(n)).length;
-    const toBuy = names.length - alreadyHave;
-    const grouped = groupBySection(names);
+    const alreadyHave = items.filter(i => state.checkedItems.has(i.name)).length;
+    const toBuy = items.length - alreadyHave;
+    const grouped = groupBySection(items);
     const listHtml = SECTION_ORDER
         .filter(s => grouped[s] && grouped[s].length > 0)
         .map(s => {
-            const items = grouped[s].map(n => {
-                const checked = state.checkedItems.has(n);
+            const itemsInSection = grouped[s].map(item => {
+                const checked = state.checkedItems.has(item.name);
+                const qtyText = formatAggregateQty(item.byUnit);
                 return `
-                    <div class="shopping-item ${checked ? "checked" : ""}" data-name="${escapeHtml(n)}">
+                    <div class="shopping-item ${checked ? "checked" : ""}" data-name="${escapeHtml(item.name)}">
                         <span class="shopping-checkbox">&#10003;</span>
-                        <span class="shopping-name">${escapeHtml(n)}</span>
+                        <span class="shopping-name">${escapeHtml(item.name)}${qtyText ? ` <span class="shopping-qty">(${escapeHtml(qtyText)})</span>` : ""}</span>
                     </div>
                 `;
             }).join("");
             return `
                 <div class="shopping-section">
                     <div class="shopping-section-label">${escapeHtml(s)}</div>
-                    ${items}
+                    ${itemsInSection}
                 </div>
             `;
         }).join("");
@@ -749,17 +751,32 @@ function toggleChecked(name) {
 
 /* ---------- Shared: ingredients & email ---------- */
 
-function uniqueIngredientNames() {
-    const names = new Set();
-    for (const id of Object.keys(state.selections)) {
+function aggregateIngredients() {
+    const map = new Map();
+    for (const [id, count] of Object.entries(state.selections)) {
         const r = state.recipes.find(x => x.id === id);
         if (!r) continue;
         for (const ing of r.ingredients || []) {
-            const n = (ing.item || "").toLowerCase().trim();
-            if (n) names.add(n);
+            const name = (ing.item || "").toLowerCase().trim();
+            if (!name) continue;
+            const unit = (ing.unit || "").trim();
+            const qty = (Number(ing.qty) || 0) * count * state.peopleCount;
+            if (!map.has(name)) map.set(name, { name, byUnit: {} });
+            const entry = map.get(name);
+            entry.byUnit[unit] = (entry.byUnit[unit] || 0) + qty;
         }
     }
-    return [...names].sort();
+    return [...map.values()].sort((a, b) => a.name.localeCompare(b.name));
+}
+
+function formatAggregateQty(byUnit) {
+    const parts = [];
+    for (const [unit, qty] of Object.entries(byUnit)) {
+        if (!qty) continue;
+        const num = Number.isInteger(qty) ? qty : Number(qty.toFixed(2));
+        parts.push(unit ? `${num} ${unit}` : `${num}`);
+    }
+    return parts.join(" + ");
 }
 
 function countPickedForMeal(m) {
@@ -772,10 +789,10 @@ function countPickedForMeal(m) {
 }
 
 function buildShoppingListText() {
-    const names = uniqueIngredientNames();
-    if (names.length === 0) return null;
+    const items = aggregateIngredients();
+    if (items.length === 0) return null;
     const lines = [];
-    lines.push("MEALS THIS WEEK");
+    lines.push(`MEALS THIS WEEK (for ${state.peopleCount} ${state.peopleCount === 1 ? "person" : "people"})`);
     lines.push("");
     for (const m of MEAL_TYPES) {
         const picks = Object.entries(state.selections)
@@ -790,7 +807,7 @@ function buildShoppingListText() {
     }
     lines.push("SHOPPING LIST");
     lines.push("");
-    const toBuy = names.filter(n => !state.checkedItems.has(n));
+    const toBuy = items.filter(i => !state.checkedItems.has(i.name));
     if (toBuy.length === 0) {
         lines.push("(nothing to buy - you have everything!)");
     } else {
@@ -798,7 +815,10 @@ function buildShoppingListText() {
         for (const s of SECTION_ORDER) {
             if (!grouped[s] || grouped[s].length === 0) continue;
             lines.push(s);
-            for (const n of grouped[s]) lines.push(`- ${capitalize(n)}`);
+            for (const item of grouped[s]) {
+                const qtyText = formatAggregateQty(item.byUnit);
+                lines.push(qtyText ? `- ${capitalize(item.name)} (${qtyText})` : `- ${capitalize(item.name)}`);
+            }
             lines.push("");
         }
     }
@@ -857,12 +877,12 @@ function openModal(id) {
                 ${(r.vibes || []).map(v => `<span class="tag">${escapeHtml(v)}</span>`).join("")}
             </div>
             <div class="modal-section">
-                <h3>Ingredients</h3>
-                <ul>${ingHtml}</ul>
-            </div>
-            <div class="modal-section">
                 <h3>Method</h3>
                 <ol>${methodHtml}</ol>
+            </div>
+            <div class="modal-section">
+                <h3>Ingredients</h3>
+                <ul>${ingHtml}</ul>
             </div>
         </div>
     `;
