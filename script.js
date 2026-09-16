@@ -163,48 +163,74 @@ function render() {
     else if (state.view === "browse") { viewHtml = browseHtml(); wireFn = wireBrowse; }
     else if (state.view === "summary") { viewHtml = summaryHtml(); wireFn = wireSummary; }
     else if (state.view === "shopping") { viewHtml = shoppingHtml(); wireFn = wireShopping; }
-    app.innerHTML = peopleBannerHtml() + viewHtml;
-    wirePeopleBanner();
+    app.innerHTML = `<main id="view-content">${viewHtml}</main>${bottomBarHtml()}`;
     if (wireFn) wireFn();
+    wireBottomBar();
 }
 
-/* ---------- People banner (persistent across pages) ---------- */
+/* ---------- Bottom utility bar (persistent) ---------- */
 
-function peopleBannerHtml() {
+function bottomBarHtml() {
+    const totalPlanned = Object.values(state.selections).reduce((a, b) => a + b, 0);
     const n = state.peopleCount;
     return `
-        <div class="people-banner">
-            <span class="people-banner-label">Cooking for</span>
-            <div class="people-stepper">
-                <button type="button" class="people-stepper-btn" data-action="people-dec" aria-label="Fewer people">&minus;</button>
-                <span class="people-stepper-value">${n}</span>
-                <button type="button" class="people-stepper-btn" data-action="people-inc" aria-label="More people">&#43;</button>
+        <nav class="bottom-bar" aria-label="Utility bar">
+            <button type="button" class="bottom-bar-btn" data-action="home" aria-label="Home">
+                <span class="bottom-bar-icon">
+                    <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22" aria-hidden="true"><path d="M12 3l9 8h-3v10h-4v-6h-4v6h-4v-10h-3z"/></svg>
+                </span>
+                <span class="bottom-bar-label">Home</span>
+            </button>
+            <div class="bottom-bar-people">
+                <div class="people-stepper">
+                    <button type="button" class="people-stepper-btn" data-action="people-dec" aria-label="Fewer people">&minus;</button>
+                    <span class="people-stepper-value">${n}</span>
+                    <button type="button" class="people-stepper-btn" data-action="people-inc" aria-label="More people">&#43;</button>
+                </div>
+                <span class="bottom-bar-label">${n === 1 ? "person" : "people"}</span>
             </div>
-            <span class="people-banner-label">${n === 1 ? "person" : "people"}</span>
-        </div>
+            <button type="button" class="bottom-bar-btn" data-action="view-plan" aria-label="View meals">
+                <span class="bottom-bar-icon">
+                    <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22" aria-hidden="true"><path d="M4 6h16v2H4V6zm0 5h16v2H4v-2zm0 5h10v2H4v-2z"/></svg>
+                    ${totalPlanned > 0 ? `<span class="bottom-bar-badge">${totalPlanned}</span>` : ""}
+                </span>
+                <span class="bottom-bar-label">Meals</span>
+            </button>
+            <button type="button" class="bottom-bar-btn destructive" data-action="clear-plan" aria-label="Clear meals"${totalPlanned === 0 ? " disabled" : ""}>
+                <span class="bottom-bar-icon">
+                    <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22" aria-hidden="true"><path d="M9 3v1H4v2h1v13a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V6h1V4h-5V3H9zm0 5h2v10H9V8zm4 0h2v10h-2V8z"/></svg>
+                </span>
+                <span class="bottom-bar-label">Clear</span>
+            </button>
+            <button type="button" class="bottom-bar-btn primary" data-action="shopping" aria-label="Shopping list">
+                <span class="bottom-bar-icon">
+                    <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22" aria-hidden="true"><path d="M7 18a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm10 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zM3 3v2h2l3.6 7.59-1.35 2.44C7.16 15.37 7 15.68 7 16a1 1 0 0 0 1 1h12v-2H8.42c-.14 0-.25-.11-.25-.25l.03-.12L9.1 13h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49L19.14 4.6 15.55 11H9.53L5.21 3H3z"/></svg>
+                </span>
+                <span class="bottom-bar-label">Shopping</span>
+            </button>
+        </nav>
     `;
 }
 
-function wirePeopleBanner() {
-    document.querySelectorAll('[data-action="people-inc"]').forEach(el => {
-        el.addEventListener("click", (e) => { e.stopPropagation(); adjustPeople(+1); });
-    });
-    document.querySelectorAll('[data-action="people-dec"]').forEach(el => {
-        el.addEventListener("click", (e) => { e.stopPropagation(); adjustPeople(-1); });
+function wireBottomBar() {
+    document.querySelectorAll(".bottom-bar [data-action]").forEach(el => {
+        const a = el.dataset.action;
+        if (a === "home") el.addEventListener("click", goHome);
+        else if (a === "view-plan") el.addEventListener("click", goSummary);
+        else if (a === "shopping") el.addEventListener("click", goShopping);
+        else if (a === "clear-plan") el.addEventListener("click", clearPlan);
+        else if (a === "people-inc") el.addEventListener("click", (e) => { e.stopPropagation(); adjustPeople(+1); });
+        else if (a === "people-dec") el.addEventListener("click", (e) => { e.stopPropagation(); adjustPeople(-1); });
     });
 }
 
 /* ---------- Shared page header ---------- */
 
 function pageHeaderHtml(centerHtml = "", rightHtml = "") {
+    if (!centerHtml && !rightHtml) return "";
     return `
         <div class="page-header">
-            <button type="button" class="page-header-home-btn" data-action="home" aria-label="Home">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                    <path d="M12 3l9 8h-3v10h-4v-6h-4v6h-4v-10h-3z"/>
-                </svg>
-                <span>Home</span>
-            </button>
+            <div class="page-header-left"></div>
             <div class="page-header-center">${centerHtml}</div>
             <div class="page-header-right">${rightHtml}</div>
         </div>
@@ -214,8 +240,6 @@ function pageHeaderHtml(centerHtml = "", rightHtml = "") {
 /* ---------- Home view ---------- */
 
 function homeHtml() {
-    const totalPlanned = Object.values(state.selections).reduce((a, b) => a + b, 0);
-
     const cards = MEAL_TYPES.map(m => {
         const count = state.recipes.filter(r => r.mealType === m).length;
         const picked = countPickedForMeal(m);
@@ -230,17 +254,6 @@ function homeHtml() {
         `;
     }).join("");
 
-    const planSummary = totalPlanned > 0 ? `
-        <div class="home-plan-summary">
-            <p class="home-plan-count"><strong>${totalPlanned}</strong> meal${totalPlanned === 1 ? "" : "s"} in this week's plan</p>
-            <div class="home-plan-actions">
-                <button type="button" class="btn btn-secondary" data-action="view-plan">View plan</button>
-                <button type="button" class="btn btn-primary" data-action="shopping">Generate shopping list</button>
-            </div>
-            <button type="button" class="btn-text" data-action="clear-plan" style="margin-top:12px">Clear plan and start fresh</button>
-        </div>
-    ` : "";
-
     return `
         <div class="home">
             <div class="home-header">
@@ -248,19 +261,15 @@ function homeHtml() {
                 <p class="home-question">What are you shopping for?</p>
             </div>
             <div class="meal-type-grid">${cards}</div>
-            ${planSummary}
         </div>
     `;
 }
 
 function wireHome() {
-    document.querySelectorAll("[data-action]").forEach(el => {
+    document.querySelectorAll("#view-content [data-action]").forEach(el => {
         const a = el.dataset.action;
         const meal = el.dataset.meal;
-        if (a === "view-plan") el.addEventListener("click", goSummary);
-        else if (a === "shopping") el.addEventListener("click", goShopping);
-        else if (a === "clear-plan") el.addEventListener("click", clearPlan);
-        else if (a === "swipe") el.addEventListener("click", () => goSelect(meal));
+        if (a === "swipe") el.addEventListener("click", () => goSelect(meal));
         else if (a === "browse-meal") el.addEventListener("click", (e) => {
             e.stopPropagation();
             goBrowse(meal);
@@ -369,10 +378,9 @@ function selectHtml() {
 }
 
 function wireSelect() {
-    document.querySelectorAll("[data-action]").forEach(el => {
+    document.querySelectorAll("#view-content [data-action]").forEach(el => {
         const a = el.dataset.action;
-        if (a === "home") el.addEventListener("click", goHome);
-        else if (a === "summary") el.addEventListener("click", goSummary);
+        if (a === "summary") el.addEventListener("click", goSummary);
         else if (a === "add") el.addEventListener("click", addCurrent);
         else if (a === "skip") el.addEventListener("click", skipCurrent);
     });
@@ -556,10 +564,9 @@ function browseHtml() {
 }
 
 function wireBrowse() {
-    document.querySelectorAll("[data-action]").forEach(el => {
+    document.querySelectorAll("#view-content [data-action]").forEach(el => {
         const a = el.dataset.action;
-        if (a === "home") el.addEventListener("click", goHome);
-        else if (a === "summary") el.addEventListener("click", goSummary);
+        if (a === "summary") el.addEventListener("click", goSummary);
         else if (a === "toggle") el.addEventListener("click", () => toggleBrowseSelection(el.dataset.id));
     });
 }
@@ -582,12 +589,10 @@ function summaryHtml() {
 
     if (picked.length === 0) {
         return `
-            ${pageHeaderHtml()}
             <div class="summary">
-                <div class="summary-header"><h1>Your plan</h1></div>
+                <div class="summary-header"><h1>Your meals</h1></div>
                 <div class="summary-empty">
-                    <p>No meals picked yet.</p>
-                    <button type="button" class="btn btn-primary" data-action="home">Start picking</button>
+                    <p>No meals picked yet. Pick a meal type from Home below.</p>
                 </div>
             </div>
         `;
@@ -633,25 +638,19 @@ function summaryHtml() {
     }).join("");
 
     return `
-        ${pageHeaderHtml()}
         <div class="summary">
-            <div class="summary-header"><h1>Your plan</h1></div>
-            <p class="summary-subtitle">${total} meal${total === 1 ? "" : "s"} &middot; adjust counts or remove any.</p>
+            <div class="summary-header"><h1>Your meals</h1></div>
+            <p class="summary-subtitle">${total} meal${total === 1 ? "" : "s"} &middot; tap any to see the recipe, or adjust counts.</p>
             ${groups}
-            <div class="summary-actions" style="justify-content:center">
-                <button type="button" class="btn btn-primary btn-large" data-action="shopping">Generate shopping list &rarr;</button>
-            </div>
         </div>
     `;
 }
 
 function wireSummary() {
-    document.querySelectorAll("[data-action]").forEach(el => {
+    document.querySelectorAll("#view-content [data-action]").forEach(el => {
         const a = el.dataset.action;
         const id = el.dataset.id;
-        if (a === "home") el.addEventListener("click", goHome);
-        else if (a === "shopping") el.addEventListener("click", goShopping);
-        else if (a === "view") el.addEventListener("click", () => openModal(id));
+        if (a === "view") el.addEventListener("click", () => openModal(id));
         else if (a === "inc") el.addEventListener("click", (e) => { e.stopPropagation(); adjust(id, +1); });
         else if (a === "dec") el.addEventListener("click", (e) => { e.stopPropagation(); adjust(id, -1); });
         else if (a === "remove") el.addEventListener("click", (e) => { e.stopPropagation(); removeMeal(id); });
@@ -679,7 +678,6 @@ function shoppingHtml() {
     const items = aggregateIngredients();
     if (items.length === 0) {
         return `
-            ${pageHeaderHtml()}
             <div class="shopping">
                 <div class="shopping-header"><h1>Shopping list</h1></div>
                 <p style="color:var(--text-muted)">Pick some meals first.</p>
@@ -710,7 +708,6 @@ function shoppingHtml() {
             `;
         }).join("");
     return `
-        ${pageHeaderHtml()}
         <div class="shopping">
             <div class="shopping-header">
                 <h1>Shopping list</h1>
@@ -719,25 +716,20 @@ function shoppingHtml() {
             </div>
             <div class="shopping-items">${listHtml}</div>
             <div class="shopping-actions">
-                <button type="button" class="btn btn-secondary" data-action="summary">&larr; Back to plan</button>
-                <div style="display:flex;gap:10px">
-                    <button type="button" class="btn btn-secondary" data-action="copy" id="copy-btn">Copy</button>
-                    <button type="button" class="btn btn-primary" data-action="send">Send by email</button>
-                </div>
+                <button type="button" class="btn btn-secondary" data-action="copy" id="copy-btn">Copy</button>
+                <button type="button" class="btn btn-primary" data-action="send">Send by email</button>
             </div>
         </div>
     `;
 }
 
 function wireShopping() {
-    document.querySelectorAll(".shopping-item").forEach(el => {
+    document.querySelectorAll("#view-content .shopping-item").forEach(el => {
         el.addEventListener("click", () => toggleChecked(el.dataset.name));
     });
-    document.querySelectorAll("[data-action]").forEach(el => {
+    document.querySelectorAll("#view-content [data-action]").forEach(el => {
         const a = el.dataset.action;
-        if (a === "summary") el.addEventListener("click", goSummary);
-        else if (a === "home") el.addEventListener("click", goHome);
-        else if (a === "copy") el.addEventListener("click", copyShoppingList);
+        if (a === "copy") el.addEventListener("click", copyShoppingList);
         else if (a === "send") el.addEventListener("click", sendShoppingList);
     });
 }
