@@ -474,6 +474,38 @@
         "Sprinkle with grated cheese, then add toppings. Flex to what you have: ham, chorizo, sweetcorn, peppers, olives, mushrooms - anything goes.",
         "Bake for 8-10 minutes until the cheese is bubbly and the edges are crisp."
       ]
+    },
+    {
+      "id": "thai-red-or-green-curry",
+      "name": "Thai Red or Green Curry",
+      "mealType": "dinner",
+      "cuisine": "thai",
+      "vibes": ["quick", "spicy", "hearty"],
+      "source": "user",
+      "servings": 1,
+      "prepMins": 8,
+      "cookMins": 15,
+      "ingredients": [
+        {"item": "chicken breast", "qty": 100, "unit": "g"},
+        {"item": "onion", "qty": 0.5, "unit": ""},
+        {"item": "thai curry paste", "qty": 2, "unit": "tbsp"},
+        {"item": "coconut milk", "qty": 200, "unit": "ml"},
+        {"item": "red chilli", "qty": 1, "unit": ""},
+        {"item": "baby corn", "qty": 25, "unit": "g"},
+        {"item": "mixed peppers", "qty": 0.5, "unit": ""},
+        {"item": "mangetout", "qty": 40, "unit": "g"},
+        {"item": "jasmine rice", "qty": 100, "unit": "g"},
+        {"item": "vegetable oil", "qty": 1, "unit": "tbsp"}
+      ],
+      "method": [
+        "Cook the jasmine rice per packet instructions.",
+        "Heat the oil in a wok or pan over medium-high heat. Fry the sliced onion for 2-3 minutes until softened.",
+        "Add the sliced chilli and diced chicken. Stir-fry until the chicken is browned all over.",
+        "Stir in the curry paste (red or green - both work) and cook for 1-2 minutes until fragrant.",
+        "Pour in the coconut milk and stir to combine.",
+        "Add the baby corn, sliced peppers and mangetout. Cover and simmer for 5-6 minutes until the veg is tender and the chicken is cooked through.",
+        "Serve the curry over the rice."
+      ]
     }
   ]
 }
