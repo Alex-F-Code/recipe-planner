@@ -709,6 +709,108 @@
         "Build the burger: bottom bun, ketchup, lettuce, tomato slices, patty with cheese, top bun.",
         "Serve with the chips."
       ]
+    },
+    {
+      "id": "sausage-and-mash",
+      "name": "Sausage and Mash",
+      "mealType": "dinner",
+      "cuisine": "british",
+      "vibes": ["comfort", "hearty"],
+      "source": "user",
+      "servings": 1,
+      "prepMins": 10,
+      "cookMins": 25,
+      "ingredients": [
+        {"item": "sausage", "qty": 4, "unit": ""},
+        {"item": "potato", "qty": 4, "unit": ""},
+        {"item": "milk", "qty": 30, "unit": "ml"},
+        {"item": "gravy granules", "qty": 1, "unit": "tbsp"},
+        {"item": "frozen peas", "qty": 100, "unit": "g"}
+      ],
+      "method": [
+        "Peel the potatoes and cut into chunks. Boil in salted water for 15-18 minutes until tender.",
+        "Meanwhile, cook the sausages: grill or oven-bake at 200C for 20 minutes, turning halfway. Pan-frying also works.",
+        "Steam or microwave the frozen peas for 3-4 minutes.",
+        "Drain the potatoes and mash with a splash of milk and plenty of black pepper.",
+        "Make the gravy: mix the granules with 200ml boiling water (adjust to preferred thickness).",
+        "Plate the mash, top with sausages, add peas on the side and pour the gravy over."
+      ]
+    },
+    {
+      "id": "chicken-pesto-pasta",
+      "name": "Chicken Pesto Pasta",
+      "mealType": "dinner",
+      "cuisine": "italian",
+      "vibes": ["quick", "hearty"],
+      "source": "user",
+      "servings": 1,
+      "prepMins": 5,
+      "cookMins": 15,
+      "ingredients": [
+        {"item": "chicken sausage", "qty": 4, "unit": ""},
+        {"item": "pasta", "qty": 150, "unit": "g"},
+        {"item": "pesto", "qty": 100, "unit": "g"},
+        {"item": "cherry tomato", "qty": 80, "unit": "g"},
+        {"item": "mixed peppers", "qty": 0.5, "unit": ""},
+        {"item": "grated cheese", "qty": 50, "unit": "g"},
+        {"item": "frozen peas", "qty": 50, "unit": "g"}
+      ],
+      "method": [
+        "Cook the pasta according to packet instructions.",
+        "Meanwhile, grill or oven-cook the chicken sausages at 200C for 15 minutes, turning halfway.",
+        "Slice the pepper and halve the cherry tomatoes.",
+        "Add the frozen peas to the pasta water for the last 2 minutes.",
+        "Drain the pasta and peas, return to the pan.",
+        "Stir the pesto through to coat.",
+        "Slice the cooked sausages. Top the pasta with the sausages, cherry tomatoes and sliced pepper.",
+        "Finish with the grated cheese."
+      ]
+    },
+    {
+      "id": "chicken-katsu",
+      "name": "Chicken Katsu",
+      "mealType": "dinner",
+      "cuisine": "japanese",
+      "vibes": ["comfort", "quick", "hearty"],
+      "source": "user",
+      "servings": 1,
+      "prepMins": 5,
+      "cookMins": 20,
+      "ingredients": [
+        {"item": "breaded chicken breast", "qty": 1, "unit": ""},
+        {"item": "jasmine rice", "qty": 100, "unit": "g"},
+        {"item": "katsu sauce", "qty": 3, "unit": "tbsp"},
+        {"item": "frozen sweetcorn", "qty": 20, "unit": "g"},
+        {"item": "frozen peas", "qty": 20, "unit": "g"},
+        {"item": "broccoli", "qty": 0.25, "unit": "head"}
+      ],
+      "method": [
+        "Cook the rice per packet instructions.",
+        "Bake the breaded chicken breast at 200C per pack instructions (usually 18-20 minutes).",
+        "Warm the katsu sauce in a small pan over low heat.",
+        "Steam the broccoli, sweetcorn and peas for 3-4 minutes.",
+        "Slice the cooked chicken. Serve on the rice with the veg alongside and the katsu sauce drizzled over."
+      ]
+    },
+    {
+      "id": "soup-and-roll",
+      "name": "Soup and Crusty Roll",
+      "mealType": "dinner",
+      "cuisine": "any",
+      "vibes": ["quick", "comfort", "light"],
+      "source": "user",
+      "servings": 1,
+      "prepMins": 1,
+      "cookMins": 5,
+      "ingredients": [
+        {"item": "soup", "qty": 1, "unit": "portion"},
+        {"item": "crusty roll", "qty": 1, "unit": ""}
+      ],
+      "method": [
+        "Heat the soup on the hob or in the microwave per pack instructions.",
+        "Warm the roll in the oven for a few minutes if you like.",
+        "Serve soup with the roll for dipping."
+      ]
     }
   ]
 }

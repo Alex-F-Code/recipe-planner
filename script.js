@@ -22,7 +22,7 @@ const SECTION_RULES = [
     ["Frozen", ["frozen"]],
     ["Herbs, spices & baking", ["stock cube", "gravy granule", "chocolate powder", "spice mix", "chia seed", "baking powder", "curry powder"]],
     ["Oils, sauces & condiments", ["olive oil", "sesame oil", "vegetable oil", "sunflower oil", "rapeseed oil", "peanut butter", "curry paste", "soy sauce", "fish sauce", "oyster sauce", "black bean sauce", "worcestershire sauce", "chicken stock", "chicken broth", "beef stock", "beef broth", "vegetable stock", "vegetable broth"]],
-    ["Tins & jars", ["baked bean", "tinned", "canned", "kalamata olive", "black olive", "green olive", "coconut milk", "tomato puree", "passata", "salsa"]],
+    ["Tins & jars", ["baked bean", "tinned", "canned", "kalamata olive", "black olive", "green olive", "coconut milk", "tomato puree", "passata", "salsa", "pesto", "soup"]],
     ["Bakery", ["pitta", "tortilla", "wrap", "sourdough", "bagel", "baguette", "flatbread", "bread"]],
     ["Fruit & veg", ["fresh mint", "fresh coriander", "fresh basil", "fresh thyme", "fresh parsley", "fresh dill", "fresh rosemary", "thai basil"]],
     ["Fruit & veg", ["baby gem", "baby spinach", "baby corn", "cherry tomato", "spring onion", "red onion", "red pepper", "green bean", "chestnut mushroom", "romaine lettuce", "garlic clove", "garlic bulb", "celery stick", "new potato", "red chilli", "green chilli", "chilli pepper"]],
