@@ -679,6 +679,36 @@
         "Warm the wraps briefly. Fill with the chicken and peppers, cheese, tomato-onion mix, avocado slices and a spoon of salsa.",
         "Serve with tortilla chips on the side."
       ]
+    },
+    {
+      "id": "burgers",
+      "name": "Burgers and Chips",
+      "mealType": "dinner",
+      "cuisine": "american",
+      "vibes": ["quick", "comfort", "hearty"],
+      "source": "user",
+      "servings": 1,
+      "prepMins": 5,
+      "cookMins": 25,
+      "ingredients": [
+        {"item": "beef burger patty", "qty": 1, "unit": ""},
+        {"item": "burger bun", "qty": 1, "unit": ""},
+        {"item": "cheese slice", "qty": 1, "unit": ""},
+        {"item": "lettuce", "qty": 1, "unit": "handful"},
+        {"item": "tomato", "qty": 1, "unit": ""},
+        {"item": "ketchup", "qty": 1, "unit": "tbsp"},
+        {"item": "frozen chips", "qty": 150, "unit": "g"},
+        {"item": "vegetable oil", "qty": 1, "unit": "tsp"}
+      ],
+      "method": [
+        "Preheat oven to 220C. Spread the frozen chips on a baking tray and bake for 20-25 minutes, turning halfway.",
+        "Heat the oil in a pan over medium-high. Cook the burger patty for 4-5 minutes each side until cooked through.",
+        "Lay the cheese slice on top of the patty in the last minute so it melts.",
+        "Slice the tomato and wash the lettuce.",
+        "Toast the bun cut-side down in the pan for a minute to warm.",
+        "Build the burger: bottom bun, ketchup, lettuce, tomato slices, patty with cheese, top bun.",
+        "Serve with the chips."
+      ]
     }
   ]
 }
