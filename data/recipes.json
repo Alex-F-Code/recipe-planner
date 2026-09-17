@@ -644,6 +644,41 @@
         }
       ],
       "method": ["Cook the jasmine rice per packet instructions.", "Heat the oil in a wok or pan over medium-high heat. Fry the sliced onion for 2-3 minutes until softened.", "Add the sliced chilli and diced chicken. Stir-fry until the chicken is browned all over.", "Stir in the curry paste (red or green - both work) and cook for 1-2 minutes until fragrant.", "Pour in the coconut milk and stir to combine.", "Add the baby corn, sliced peppers and mangetout. Cover and simmer for 5-6 minutes until the veg is tender and the chicken is cooked through.", "Serve the curry over the rice."]
+    },
+    {
+      "id": "fajitas",
+      "name": "Chicken Fajitas",
+      "mealType": "dinner",
+      "cuisine": "mexican",
+      "vibes": ["quick", "hearty", "sharing"],
+      "source": "user",
+      "servings": 1,
+      "prepMins": 10,
+      "cookMins": 15,
+      "ingredients": [
+        {"item": "chicken breast", "qty": 100, "unit": "g"},
+        {"item": "tortilla wrap", "qty": 2, "unit": ""},
+        {"item": "sweet mixed peppers", "qty": 1, "unit": ""},
+        {"item": "onion", "qty": 1, "unit": ""},
+        {"item": "fajita spice mix", "qty": 1, "unit": "tsp"},
+        {"item": "vegetable oil", "qty": 1, "unit": "tbsp"},
+        {"item": "tomato", "qty": 1, "unit": ""},
+        {"item": "lemon", "qty": 0.25, "unit": ""},
+        {"item": "avocado", "qty": 0.5, "unit": ""},
+        {"item": "grated cheese", "qty": 50, "unit": "g"},
+        {"item": "salsa", "qty": 2, "unit": "tbsp"},
+        {"item": "tortilla chips", "qty": 1, "unit": "handful"}
+      ],
+      "method": [
+        "Chop half the onion. Heat the oil in a pan and fry for 3-4 minutes until softening.",
+        "Slice the peppers. Add to the pan and cook 2-3 minutes.",
+        "Slice the chicken thinly. Push the veg aside, add chicken and brown all over.",
+        "Stir in the fajita spice mix. Cook down 2-3 minutes, adding a splash of water if it looks dry.",
+        "Meanwhile, finely chop the tomato and the remaining half onion. Mix with a good pinch of flakey salt and a squeeze of lemon juice.",
+        "Slice the avocado.",
+        "Warm the wraps briefly. Fill with the chicken and peppers, cheese, tomato-onion mix, avocado slices and a spoon of salsa.",
+        "Serve with tortilla chips on the side."
+      ]
     }
   ]
 }
