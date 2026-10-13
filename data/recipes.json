@@ -811,6 +811,29 @@
         "Warm the roll in the oven for a few minutes if you like.",
         "Serve soup with the roll for dipping."
       ]
+    },
+    {
+      "id": "marinated-chicken-rice",
+      "name": "Marinated Chicken, Rice and Veg",
+      "mealType": "dinner",
+      "cuisine": "any",
+      "vibes": ["quick", "easy", "hearty"],
+      "source": "user",
+      "servings": 1,
+      "prepMins": 2,
+      "cookMins": 25,
+      "ingredients": [
+        {"item": "marinated chicken breast", "qty": 1, "unit": ""},
+        {"item": "jasmine rice", "qty": 75, "unit": "g"},
+        {"item": "frozen peas", "qty": 50, "unit": "g"},
+        {"item": "broccoli", "qty": 0.25, "unit": "head"}
+      ],
+      "method": [
+        "Cook the marinated chicken per pack instructions (usually oven at 200C for 20-25 minutes).",
+        "Cook the rice per packet instructions. Swap for frozen chips if you fancy them instead.",
+        "Steam or microwave the peas and broccoli for 3-4 minutes.",
+        "Plate the rice, slice the chicken on top and serve the veg alongside."
+      ]
     }
   ]
 }
