@@ -834,6 +834,35 @@
         "Steam or microwave the peas and broccoli for 3-4 minutes.",
         "Plate the rice, slice the chicken on top and serve the veg alongside."
       ]
+    },
+    {
+      "id": "salmon-risotto",
+      "name": "Salmon Risotto",
+      "mealType": "dinner",
+      "cuisine": "italian",
+      "vibes": ["comfort", "hearty"],
+      "source": "user",
+      "servings": 1,
+      "prepMins": 5,
+      "cookMins": 25,
+      "ingredients": [
+        {"item": "risotto rice", "qty": 80, "unit": "g"},
+        {"item": "vegetable stock", "qty": 400, "unit": "ml"},
+        {"item": "white onion", "qty": 0.5, "unit": ""},
+        {"item": "smoked salmon", "qty": 50, "unit": "g"},
+        {"item": "frozen peas", "qty": 50, "unit": "g"},
+        {"item": "parmesan", "qty": 20, "unit": "g"},
+        {"item": "lemon", "qty": 0.25, "unit": ""},
+        {"item": "olive oil", "qty": 1, "unit": "tbsp"}
+      ],
+      "method": [
+        "Finely chop the onion. Heat the olive oil in a pan over medium heat and sauté for 4-5 minutes until soft.",
+        "Turn up the heat. Add the risotto rice and fry for 1-2 minutes, stirring to coat.",
+        "Warm the stock in a separate pan. Add a ladleful at a time to the rice, stirring until mostly absorbed before the next ladle. Keep going for about 18-20 minutes until the rice is tender.",
+        "Stir in the peas for the last 2 minutes.",
+        "Off the heat, tear the smoked salmon over the top and squeeze over the lemon.",
+        "Add grated parmesan to taste."
+      ]
     }
   ]
 }
